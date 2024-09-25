@@ -848,8 +848,11 @@ const handleUpdateStatus = (id, currentStatus) => {
                           className="flex items-center gap-2"
                           onClick={(e) => e.preventDefault()}
                         >
+
+                          {console.log("image :", `https://lionfish-app-tdhk5.ondigitalocean.app/uploads/${brand.logo}` )}
                           <img
-                            src={`http://localhost:3000/${brand.logo}`}
+                            // src={`http://localhost:3000/${brand.logo}`}
+                            src={`https://lionfish-app-tdhk5.ondigitalocean.app/uploads/${brand.logo}`} // Assuming the images are in this path
                             alt={brand.name}
                             className="h-16 w-16 rounded-lg border"
                           />

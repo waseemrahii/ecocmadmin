@@ -849,7 +849,7 @@ const handleUpdateStatus = (id, currentStatus) => {
                           onClick={(e) => e.preventDefault()}
                         >
                           <img
-                            src={`http://localhost:3000/${brand.thumbnail}`}
+                            src={`http://localhost:3000/${brand.logo}`}
                             alt={brand.name}
                             className="h-16 w-16 rounded-lg border"
                           />

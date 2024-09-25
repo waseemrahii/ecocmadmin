@@ -849,7 +849,7 @@ const handleUpdateStatus = (id, currentStatus) => {
                           onClick={(e) => e.preventDefault()}
                         >
 
-                          {console.log("image :", `https://lionfish-app-tdhk5.ondigitalocean.app/uploads/${brand.logo}` )}
+                          {/* {console.log("image :", `https://lionfish-app-tdhk5.ondigitalocean.app/uploads/${brand.logo}` )} */}
                           <img
                             // src={`http://localhost:3000/${brand.logo}`}
                             src={`https://lionfish-app-tdhk5.ondigitalocean.app/uploads/${brand.logo}`} // Assuming the images are in this path
@@ -870,7 +870,7 @@ const handleUpdateStatus = (id, currentStatus) => {
                             className="switcher_input"
                             checked={brand.status === "active"}
                             onChange={() =>
-                              handleUpdateStatus(brand._id, brand.statuss)
+                              handleUpdateStatus(brand._id, brand.status)
                             }
                           />
                           <span className="switcher_control" />

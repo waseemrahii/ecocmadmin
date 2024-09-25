@@ -108,7 +108,7 @@ export const updateVendorStatus = createAsyncThunk(
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      return response.data;
+      return response.data.doc;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }

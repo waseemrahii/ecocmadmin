@@ -23,7 +23,7 @@ const BannerSetup = () => {
     fetch('http://localhost:3000/api/banner/')
       .then(response => response.json())
       .then(data => {
-        setList(data.map(item => ({
+        setList(data.doc.map(item => ({
           id: item._id,
           name: item.bannerType,
           img: item.bannerImage,

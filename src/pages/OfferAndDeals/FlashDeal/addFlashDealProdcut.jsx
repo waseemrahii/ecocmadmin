@@ -79,7 +79,7 @@ const AddFlashDealProdcut = () => {
         if (selectedProduct) {
             try {
                 const response = await axios.put(`http://localhost:3000/api/flash-deals/${id}/add-product`, {
-                    productId: selectedProduct.id,
+                    productId: selectedProduct._id,
                 });
                 toast.success('Product added successfully.');
                 console.log('Product added successfully:', response.data);
@@ -123,14 +123,14 @@ const AddFlashDealProdcut = () => {
             <ToastContainer />
             <div className="mb-3">
                 <h2 className="h1 mb-0 text-capitalize flex gap-2">
-                    <img src="https://6valley.6amtech.com/public/assets/back-end/img/inhouse-product-list.png" className="mb-1 mr-1" alt="" /> Add new product
+                    <img src="/inhouse-product-list.png" className="mb-1 mr-1" alt="" /> Add new product
                 </h2>
             </div>
             <div className="row">
                 <div className="col-md-12">
                     <div className="card">
                         <div className="card-header">
-                            <h3 className="mb-0 text-capitalize">Featured deal</h3>
+                            <h3 className="mb-0 text-capitalize">Add Product to  Flash deal</h3>
                         </div>
                         <div className="card-body">
                             <form onSubmit={handleSubmit}>

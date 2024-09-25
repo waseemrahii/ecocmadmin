@@ -1,4 +1,4 @@
-  .col-md-12 { 
+  /* .col-md-12 { 
       position: relative; 
       width: 100%; 
       padding-right: 15px; 
@@ -932,9 +932,4 @@
       border-radius: 100%;
   } 
   
-  
-  /* These were inline style tags. Uses id+class to override almost everything */
-  #datatable.style-dty6T {  
-     text-align: left;  
-  }  
   

@@ -1,4 +1,4 @@
-
+/* 
 
 :root { 
     --c1: #0177cd; 
@@ -581,9 +581,4 @@ select {
 b { 
     font-weight: bolder;
 } 
-
-
-/* These were inline style tags. Uses id+class to override almost everything */
-#style-qKm4b.style-qKm4b {  
-   width: 100%;  
-}  
+ */

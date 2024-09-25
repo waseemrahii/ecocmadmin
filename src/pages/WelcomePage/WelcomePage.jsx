@@ -2,7 +2,7 @@ import React from "react";
 import BussniesWallet from "./BussniesWallet";
 
 import Adminwallet from "./AdminWallet/Adminwallet";
-import OrderStatic from "./AdminWallet/OrderStatic/OrderStatic";
+// import OrderStatic from "./AdminWallet/OrderStatic/OrderStatic";
 import OrderStatistic from "./AdminWallet/OrderStatic/OrderStatistic/OrderStatistic";
 import TopCustomersSection from "./AdminWallet/adminCard/TopCustomerCard";
 import TopProductSection from "./ProductAdmin/ProductAdmin";

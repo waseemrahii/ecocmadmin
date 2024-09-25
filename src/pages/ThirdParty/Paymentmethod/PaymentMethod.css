@@ -1,4 +1,4 @@
-
+/* 
 :root { 
     --c1: #0177cd; 
     --title-color: #334257; 
@@ -191,7 +191,6 @@ img {
 .active
 {
     color: #A1CB46;
-    /* text-decoration: underline; */
     border-bottom: 2px;
     border-style: solid;
     border-color: #A1CB46;
@@ -719,4 +718,4 @@ b {
 } 
 
 
-
+ */

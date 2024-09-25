@@ -30,7 +30,7 @@ const FlashDeals = () => {
     try {
       const response = await axios.get("http://localhost:3000/api/flash-deals/");
       setFlashDeals(response.data.docs);
-      console.log("Fetched flash deals:", response.data);
+      // console.log("Fetched flash deals:", response.data);
     } catch (error) {
       console.error("Error fetching flash deals:", error);
     }
@@ -88,7 +88,7 @@ const FlashDeals = () => {
     formDataToSubmit.append("title", formData.title);
   
     try {
-      console.log('Form data:', formData);
+      // console.log('Form data:', formData);
 
       const response = await axios.post("http://localhost:3000/api/flash-deals/", formDataToSubmit, {
         headers: {

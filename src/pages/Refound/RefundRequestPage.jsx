@@ -2,19 +2,19 @@ import React from 'react';
 import RefundManagement from './RefundRequests.jsx'; // Adjust the import path as needed
 
 const PendingRefunds = () => (
-  <RefundManagement status="Pending" title="Pending Refunds" />
+  <RefundManagement status="pending" title="Pending Refunds" />
 );
 
 const ApprovedRefunds = () => (
-  <RefundManagement status="Approved" title="Approved Refunds " />
+  <RefundManagement status="approved" title="Approved Refunds " />
 );
 
 const RefundedRefunds = () => (
-  <RefundManagement status="Refunded" title="Refunded Refunds" />
+  <RefundManagement status="refunded" title="Refunded Refunds" />
 );
 
 const RejectedRefunds = () => (
-  <RefundManagement status="Rejected" title="Rejected Refunds" />
+  <RefundManagement status="rejected" title="Rejected Refunds" />
 );
 
 export {

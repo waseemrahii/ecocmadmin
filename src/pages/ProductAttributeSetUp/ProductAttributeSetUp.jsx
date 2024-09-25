@@ -1,11 +1,10 @@
 
-
 // import React, { useState, useEffect } from "react";
 // import "./AttributeSetup.css";
 // import { FaEdit, FaEye, FaSearch, FaTrash } from "react-icons/fa";
 // import { Link } from "react-router-dom";
 // import axios from 'axios';
-// import { toast,ToastContainer  } from 'react-toastify'; // Import toast
+// import { toast, ToastContainer } from 'react-toastify'; // Import toast
 // import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
 
 // const AttributeSetup = () => {
@@ -13,8 +12,7 @@
 //   const [activeTab, setActiveTab] = useState('en');
 //   const [searchValue, setSearchValue] = useState('');
 //   const [newAttribute, setNewAttribute] = useState({
-//     type: '',
-//     values: ['']
+//     name: ""
 //   });
 
 //   // Fetch attributes data from API
@@ -22,7 +20,7 @@
 //     const fetchAttributes = async () => {
 //       try {
 //         const response = await axios.get('http://localhost:3000/api/attributes/');
-//         setAttributes(response.data);
+//         setAttributes(response.data.doc);
 //       } catch (error) {
 //         toast.error("Error fetching attributes data.");
 //       }
@@ -50,38 +48,6 @@
 //     }));
 //   };
 
-//   // Handle value changes for multiple values
-//   const handleValueChange = (index, event) => {
-//     const { value } = event.target;
-//     setNewAttribute(prev => {
-//       const newValues = [...prev.values];
-//       newValues[index] = value;
-//       return {
-//         ...prev,
-//         values: newValues
-//       };
-//     });
-//   };
-
-//   // Add a new value field
-//   const addValueField = () => {
-//     setNewAttribute(prev => ({
-//       ...prev,
-//       values: [...prev.values, '']
-//     }));
-//   };
-
-//   // Remove a value field
-//   const removeValueField = (index) => {
-//     setNewAttribute(prev => {
-//       const newValues = prev.values.filter((_, i) => i !== index);
-//       return {
-//         ...prev,
-//         values: newValues
-//       };
-//     });
-//   };
-
 //   // Handle form submission
 //   const handleSubmit = async (event) => {
 //     event.preventDefault();
@@ -90,11 +56,10 @@
 //       toast.success("Attribute added successfully!");
 //       // Optionally reset the form and fetch the updated attributes
 //       setNewAttribute({
-//         type: '',
-//         values: ['']
+//         name: ''
 //       });
 //       const response = await axios.get('http://localhost:3000/api/attributes/');
-//       setAttributes(response.data);
+//       setAttributes(response.data.doc);
 //     } catch (error) {
 //       toast.error("Error adding attribute.");
 //     }
@@ -107,7 +72,7 @@
 //       toast.success("Attribute deleted successfully!");
 //       // Fetch the updated attributes
 //       const response = await axios.get('http://localhost:3000/api/attributes/');
-//       setAttributes(response.data);
+//       setAttributes(response.data.doc);
 //     } catch (error) {
 //       toast.error("Error deleting attribute.");
 //     }
@@ -115,18 +80,18 @@
 
 //   // Filter attributes based on search value
 //   const filteredAttributes = attributes.filter(attribute =>
-//     attribute.type.toLowerCase().includes(searchValue.toLowerCase())
+//     attribute.name
 //   );
 
 //   return (
 //     <>
-//       <div className="content container-fluid p-15 snipcss-oDPVp ">
+//       <div className="content container-fluid p-15 snipcss-oDPVp">
 //         <div className="mb-3">
 //           <h2 className="h1 mb-0 d-flex gap-2">
 //             <img
-//               src="https://6valley.6amtech.com/public/assets/back-end/img/attribute.png"
+//               src="/attribute.png"
 //               alt="Attribute Icon"
-//             />{" "}
+//             />
 //             Attribute Setup
 //           </h2>
 //         </div>
@@ -138,7 +103,7 @@
 //                   <ul className="nav nav-tabs w-fit-content mb-4">
 //                     <li className="nav-item text-capitalize">
 //                       <a
-//                         className={`nav-link form-system-language-tab  cursor-pointer ${
+//                         className={`nav-link form-system-language-tab cursor-pointer ${
 //                           activeTab === "en" ? "active" : ""
 //                         }`}
 //                         onClick={() => handleTabClick("en")}
@@ -151,54 +116,22 @@
 //                   {activeTab === 'en' && (
 //                     <div className="form-group form-system-language-form">
 //                       <label className="title-color" htmlFor={`type-en`}>
-//                         Attribute Type <span className="text-danger">*</span> (EN)
+//                         Attribute Name <span className="text-danger">*</span> (EN)
 //                       </label>
 //                       <input
 //                         type="text"
-//                         name="type"
+//                         name="name"
 //                         className="form-control"
 //                         id={`type-en`}
-//                         placeholder="Enter Attribute Type"
-//                         value={newAttribute.type}
+//                         placeholder="Enter Attribute Name"
+//                         value={newAttribute.name}
 //                         onChange={handleInputChange}
 //                         required
 //                       />
-//                       {newAttribute.values.map((value, index) => (
-//                         <div key={index} className="d-flex gap-2 mb-2 mt-3">
-//                           <input
-//                             type="text"
-//                             className="form-control"
-//                             placeholder={`Enter Value ${index + 1}`}
-//                             value={value}
-//                             onChange={(e) => handleValueChange(index, e)}
-//                             required
-//                           />
-//                           <button
-//                             type="button"
-//                             className="btn btn-danger border-red-500"
-//                             onClick={() => removeValueField(index)}
-//                           >
-//                             Remove
-//                           </button>
-//                         </div>
-//                       ))}
-//                       <button
-//                         type="button"
-//                         className="btn  border-green-500 text-black hover:bg-green-400 hover:text-white"
-//                         onClick={addValueField}
-//                       >
-//                         Add Value
-//                       </button>
 //                     </div>
 //                   )}
 
 //                   <div className="d-flex flex-wrap gap-2 justify-content-end">
-//                     <button
-//                       type="reset"
-//                       className="btn btn-secondary rounded px-3 py-2"
-//                     >
-//                       Reset
-//                     </button>
 //                     <button
 //                       type="submit"
 //                       className="btn bg-[#A1CB46] text-white hover:bg-[#7e9f37]"
@@ -224,7 +157,7 @@
 //                   </div>
 //                   <div className="col-sm-8 col-md-6 col-lg-4">
 //                     <form method="GET">
-//                       <div className="input-group input-group-custom input-group-merge">
+//                       <div className="input-group input-group-custom input-group-merge border-green-600">
 //                         <div className="input-group-prepend">
 //                           <div className="input-group-text">
 //                             <FaSearch />
@@ -233,9 +166,9 @@
 //                         <input
 //                           type="search"
 //                           name="searchValue"
-//                           className="form-control"
+//                           className="form-control border-green-400 outline-none"
 //                           placeholder="Search by Attribute Name"
-//                           aria-label="Search orders"
+//                           aria-label="Search attributes"
 //                           value={searchValue}
 //                           onChange={handleSearchChange}
 //                         />
@@ -252,14 +185,11 @@
 //               </div>
 //               <div className="text-start">
 //                 <div className="table-responsive">
-//                   <table
-//                     className="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table w-100"
-//                   >
+//                   <table className="table table-hover table-borderless table-thead-bordered table-nowrap table-align-middle card-table w-100">
 //                     <thead className="thead-light thead-50 text-capitalize">
 //                       <tr>
 //                         <th>SL</th>
 //                         <th className="text-center">Attribute Name</th>
-//                         <th className="text-center">Values</th>
 //                         <th className="text-center">Action</th>
 //                       </tr>
 //                     </thead>
@@ -267,23 +197,20 @@
 //                       {filteredAttributes.map((attribute, index) => (
 //                         <tr key={attribute._id}>
 //                           <td>{index + 1}</td>
-//                           <td className="text-center">{attribute.type}</td>
+//                           <td className="text-center">{attribute.name}</td>
 //                           <td className="text-center">
-//                             {attribute.values.join(', ')}
-//                           </td>
-//                           <td className="text-center">
-//                             <Link
-//                               to={`/attributes/${attribute._id}`}
+//                             <button
+                              
 //                               className="btn btn-primary"
 //                             >
 //                               <FaEye />
-//                             </Link>
+//                             </button>
 //                             <button
 //                               type="button"
-//                               className="btn btn-danger ms-2"
+//                               className="btn btn-danger ms-2 border-red-500 text-red-500"
 //                               onClick={() => handleDelete(attribute._id)}
 //                             >
-//                               <FaTrash />
+//                               <FaTrash className="text-red-500" />
 //                             </button>
 //                           </td>
 //                         </tr>
@@ -304,46 +231,39 @@
 // export default AttributeSetup;
 
 
-
 import React, { useState, useEffect } from "react";
 import "./AttributeSetup.css";
 import { FaEdit, FaEye, FaSearch, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify'; // Import toast
-import 'react-toastify/dist/ReactToastify.css'; // Import toast CSS
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AttributeSetup = () => {
   const [attributes, setAttributes] = useState([]);
   const [activeTab, setActiveTab] = useState('en');
   const [searchValue, setSearchValue] = useState('');
-  const [newAttribute, setNewAttribute] = useState({
-    name: ""
-  });
+  const [newAttribute, setNewAttribute] = useState({ name: "" });
+  const [editingAttribute, setEditingAttribute] = useState(null);
 
   // Fetch attributes data from API
   useEffect(() => {
     const fetchAttributes = async () => {
       try {
         const response = await axios.get('http://localhost:3000/api/attributes/');
-        setAttributes(response.data);
+        setAttributes(response.data.doc);
       } catch (error) {
         toast.error("Error fetching attributes data.");
       }
     };
-
     fetchAttributes();
   }, []);
 
   // Handle tab click
-  const handleTabClick = (lang) => {
-    setActiveTab(lang);
-  };
+  const handleTabClick = (lang) => setActiveTab(lang);
 
   // Handle search input change
-  const handleSearchChange = (event) => {
-    setSearchValue(event.target.value);
-  };
+  const handleSearchChange = (event) => setSearchValue(event.target.value);
 
   // Handle input changes for new attribute
   const handleInputChange = (event) => {
@@ -354,20 +274,26 @@ const AttributeSetup = () => {
     }));
   };
 
-  // Handle form submission
+  // Handle form submission (add or update)
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('http://localhost:3000/api/attributes/', newAttribute);
-      toast.success("Attribute added successfully!");
-      // Optionally reset the form and fetch the updated attributes
-      setNewAttribute({
-        name: ''
-      });
+      if (editingAttribute) {
+        // Update attribute
+        await axios.put(`http://localhost:3000/api/attributes/${editingAttribute._id}`, newAttribute);
+        toast.success("Attribute updated successfully!");
+      } else {
+        // Add new attribute
+        await axios.post('http://localhost:3000/api/attributes/', newAttribute);
+        toast.success("Attribute added successfully!");
+      }
+      // Reset form and refetch attributes
+      setNewAttribute({ name: '' });
+      setEditingAttribute(null);
       const response = await axios.get('http://localhost:3000/api/attributes/');
-      setAttributes(response.data);
+      setAttributes(response.data.doc);
     } catch (error) {
-      toast.error("Error adding attribute.");
+      toast.error("Error saving attribute.");
     }
   };
 
@@ -376,17 +302,25 @@ const AttributeSetup = () => {
     try {
       await axios.delete(`http://localhost:3000/api/attributes/${id}`);
       toast.success("Attribute deleted successfully!");
-      // Fetch the updated attributes
       const response = await axios.get('http://localhost:3000/api/attributes/');
-      setAttributes(response.data);
+      setAttributes(response.data.doc);
     } catch (error) {
       toast.error("Error deleting attribute.");
     }
   };
 
+  // Handle attribute edit (populate form)
+  const handleEdit = (attribute) => {
+    setNewAttribute({ name: attribute.name });
+    setEditingAttribute(attribute);
+
+    // Scroll to the form smoothly
+  document.querySelector('form').scrollIntoView({ behavior: 'smooth' });
+  };
+
   // Filter attributes based on search value
   const filteredAttributes = attributes.filter(attribute =>
-    attribute.name
+    attribute.name.toLowerCase().includes(searchValue.toLowerCase())
   );
 
   return (
@@ -394,10 +328,7 @@ const AttributeSetup = () => {
       <div className="content container-fluid p-15 snipcss-oDPVp">
         <div className="mb-3">
           <h2 className="h1 mb-0 d-flex gap-2">
-            <img
-              src="https://6valley.6amtech.com/public/assets/back-end/img/attribute.png"
-              alt="Attribute Icon"
-            />{" "}
+            <img src="/attribute.png" alt="Attribute Icon" />
             Attribute Setup
           </h2>
         </div>
@@ -442,7 +373,7 @@ const AttributeSetup = () => {
                       type="submit"
                       className="btn bg-[#A1CB46] text-white hover:bg-[#7e9f37]"
                     >
-                      Submit
+                      {editingAttribute ? 'Update' : 'Submit'}
                     </button>
                   </div>
                 </form>
@@ -463,7 +394,7 @@ const AttributeSetup = () => {
                   </div>
                   <div className="col-sm-8 col-md-6 col-lg-4">
                     <form method="GET">
-                      <div className="input-group input-group-custom input-group-merge">
+                      <div className="input-group input-group-custom input-group-merge border-green-600">
                         <div className="input-group-prepend">
                           <div className="input-group-text">
                             <FaSearch />
@@ -472,7 +403,7 @@ const AttributeSetup = () => {
                         <input
                           type="search"
                           name="searchValue"
-                          className="form-control"
+                          className="form-control border-green-400 outline-none"
                           placeholder="Search by Attribute Name"
                           aria-label="Search attributes"
                           value={searchValue}
@@ -505,18 +436,19 @@ const AttributeSetup = () => {
                           <td>{index + 1}</td>
                           <td className="text-center">{attribute.name}</td>
                           <td className="text-center">
-                            <Link
-                              to={`/attributes/${attribute._id}`}
-                              className="btn btn-primary"
-                            >
-                              <FaEye />
-                            </Link>
                             <button
                               type="button"
-                              className="btn btn-danger ms-2"
+                              className="btn btn-primary"
+                              onClick={() => handleEdit(attribute)}
+                            >
+                              <FaEye />
+                            </button>
+                            <button
+                              type="button"
+                              className="btn btn-danger ms-2 border-red-500 text-red-500"
                               onClick={() => handleDelete(attribute._id)}
                             >
-                              <FaTrash />
+                              <FaTrash className="text-red-500" />
                             </button>
                           </td>
                         </tr>

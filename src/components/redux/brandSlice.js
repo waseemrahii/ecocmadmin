@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // API Endpoints
-const API_URL = 'http://localhost:3000/api/brands';
+const API_URL = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/brands';
 
 // Fetch brands
 export const fetchBrands = createAsyncThunk(
@@ -10,7 +10,7 @@ export const fetchBrands = createAsyncThunk(
   async (searchParams, { rejectWithValue }) => {
     try {
       const response = await axios.get(API_URL, { params: searchParams });
-      return response.data.docs; // Accessing brand data from the `docs` field
+      return response.data.doc; // Accessing brand data from the `docs` field
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -23,7 +23,7 @@ export const fetchBrandById = createAsyncThunk(
   async (brandId, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${API_URL}/${brandId}`);
-      return response.data.docs; // Accessing brand data from the `docs` field
+      return response.data.doc; // Accessing brand data from the `docs` field
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -36,7 +36,7 @@ export const createBrand = createAsyncThunk(
   async (brandData, { rejectWithValue }) => {
     try {
       const response = await axios.post(API_URL, brandData);
-      return response.data; // Ensure the response contains the created brand
+      return response.data.doc; // Ensure the response contains the created brand
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -60,7 +60,7 @@ export const updateBrand = createAsyncThunk(
             'Content-Type': 'multipart/form-data',
           },
         });
-        return response.data.docs; // Ensure the response contains the updated brand
+        return response.data.doc; // Ensure the response contains the updated brand
       } catch (error) {
         return rejectWithValue(error.response?.data || error.message);
       }
@@ -74,7 +74,7 @@ export const updateBrandStatus = createAsyncThunk(
   async ({ brandId, status }, { rejectWithValue }) => {
     try {
       const response = await axios.put(`${API_URL}/${brandId}/status`, { status });
-      return response.data; // Ensure the response contains the updated brand
+      return response.data.doc; // Ensure the response contains the updated brand
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }

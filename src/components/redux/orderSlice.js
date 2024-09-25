@@ -8,9 +8,9 @@ export const fetchOrder = createAsyncThunk(
   'vendorOrder/fetchOrdersForVendor',
   async (searchParams, { rejectWithValue }) => {
     try {
-      const url = 'http://localhost:3000/api/orders/';
+      const url = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/orders/';
       const response = await axios.get(url, { params: searchParams });
-      return response.data.docs;
+      return response.data.doc;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -22,7 +22,7 @@ export const fetchOrdersWithFilters = createAsyncThunk(
   'vendorOrder/fetchOrdersForVendor',
   async (searchParams, { rejectWithValue }) => {
     try {
-      const url = 'http://localhost:3000/api/orders/';
+      const url = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/orders/';
       const response = await axios.get(url, { params: searchParams });
       return response.data.docs;
     } catch (error) {
@@ -35,8 +35,8 @@ export const fetchOrderById = createAsyncThunk(
   'vendorOrder/fetchOrderById',
   async (orderId, { rejectWithValue }) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/orders/${orderId}`);
-      return response.data.docs;
+      const response = await axios.get(`https://lionfish-app-tdhk5.ondigitalocean.app/api/orders/${orderId}`);
+      return response.data.doc;
     } catch (error) {
       return rejectWithValue(error.response.data);
     }
@@ -56,7 +56,7 @@ export const updateOrderStatus = createAsyncThunk(
 export const deleteOrder = createAsyncThunk(
   'vendorOrder/deleteOrder',
   async (orderId) => {
-    await axios.delete(`http://localhost:3000/api/orders/${orderId}`);
+    await axios.delete(`https://lionfish-app-tdhk5.ondigitalocean.app/api/orders/${orderId}`);
     return orderId;
   }
 );
@@ -115,3 +115,6 @@ const vendorOrderSlice = createSlice({
 });
 
 export default vendorOrderSlice.reducer;
+
+
+

@@ -1,5 +1,4 @@
 import React from 'react';
-// import './TopCustomers.css'; // Import your CSS file for styling
 
 const MostCustomers = () => {
   return (

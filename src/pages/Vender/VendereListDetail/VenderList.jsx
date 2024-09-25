@@ -345,6 +345,7 @@
 
 ///////
 
+
 import React, { useState } from 'react';
 import { FiStar, FiGlobe } from 'react-icons/fi';
 import './VenderList.css';

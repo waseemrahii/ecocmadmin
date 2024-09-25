@@ -1,9 +1,7 @@
-
+/* 
 
 :root { 
-    /* --c1: #0177cd;  */
-    /* --title-color: #334257;  */
-    /* --text-color: #5b6777;  */
+
     --font: "Inter", sans-serif;
 } 
 
@@ -109,19 +107,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 .orders-count { 
     border-radius: 5px; 
     font-size: 12px; 
@@ -129,7 +114,6 @@
     padding: 4px 10px; 
     white-space: nowrap; 
     position: relative; 
-    /* color: var(--c1); */
 } 
 
 .gap-1 { 
@@ -152,7 +136,7 @@
     border-radius: 50% !important;
 } 
 
- /* .avatar { 
+  .avatar { 
     position: relative; 
     display: inline-block; 
     width: 2.625rem; 
@@ -167,10 +151,10 @@
 
 .avatar-lg { 
     min-width: 3.36875rem;
-}   */
+}   
 
 .orders-count > div:last-child  { 
     font-weight: 600;
 } 
 
-
+ */

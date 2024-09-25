@@ -189,13 +189,12 @@ const Sidebar = ({ setComponent }) => {
     setShowNotiList(!showNotiList);
 
     setShowSystemList(false);
-    setShowEmployeeList(false);
     setShowHealthList(false);
     setShowCustomerList(false);
     setShowOfferList(false);
     setShowBrandList(false);
     setShowRefoundList(false);
-    setShowOrderList(false); // Close Orders list when Refound list is toggled
+    setShowOrderList(false); 
     setShowProductList(false); // Close Product list when Refound list is toggled
     setShowInHouseProductList(false); // Close In House Product List when Refound list is toggled
   };
@@ -228,14 +227,14 @@ const Sidebar = ({ setComponent }) => {
 >
   <IoHome className="inline-block mr-2" /> Dashboard
 </Link>
-
+{/* 
 <Link
   to="/pos"
   className="block w-full text-left p-2 rounded hover:bg-[#52c970] text-white hover:text-white mb-3 text-blue-700"
   style={{ color: 'white' }}
 >
   <MdShoppingBag className="inline-block mr-2" /> Pos
-</Link>
+</Link> */}
 
 {/* order management */}
 <div className="mt-4">

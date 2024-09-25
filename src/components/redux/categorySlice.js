@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // API Endpoints
-const API_URL = 'http://localhost:3000/api/categories';
+const API_URL = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/categories';
 
 // Fetch categories
 export const fetchCategories = createAsyncThunk(
@@ -10,7 +10,7 @@ export const fetchCategories = createAsyncThunk(
   async (searchParams, { rejectWithValue }) => {
     try {
       const response = await axios.get(API_URL, { params: searchParams });
-      return response.data.docs;
+      return response.data.doc;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -23,7 +23,7 @@ export const fetchCategoryById = createAsyncThunk(
   async (categoryId, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${API_URL}/${categoryId}`);
-      return response.data.docs;
+      return response.data.doc;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }
@@ -58,7 +58,7 @@ export const updateCategory = createAsyncThunk(
           'Content-Type': 'multipart/form-data',
         },
       });
-      return response.data.docs;
+      return response.data.doc;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }

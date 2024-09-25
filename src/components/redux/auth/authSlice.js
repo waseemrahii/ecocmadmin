@@ -18,21 +18,17 @@
 //   async ({ email, password }, thunkAPI) => {
 //     try {
 //       const response = await axios.post('http://localhost:3000/api/users/login', { email, password });
-//       const { result, token } = response.data;
+//       const { accessToken, user } = response.data;
 
-//       if (result.status === 'approved') {
-//         localStorage.setItem('token', token);
-//         localStorage.setItem('user', JSON.stringify(result));
-//         return { token, user: result };
-//       } else if (result.status === 'pending') {
-//         return thunkAPI.rejectWithValue('Your account is pending approval.');
-//       } else if (result.status === 'rejected') {
-//         return thunkAPI.rejectWithValue('Your account has been rejected.');
-//       } else {
-//         return thunkAPI.rejectWithValue('Invalid email or password.');
-//       }
+//       localStorage.setItem('token', accessToken);
+//       localStorage.setItem('user', JSON.stringify(user));
+
+//       return { token: accessToken, user };
 //     } catch (error) {
-//       return thunkAPI.rejectWithValue('An error occurred during login.');
+//       // return thunkAPI.rejectWithValue('An error occurred during login.');
+//       console.error('Login error:', error.response?.data || error.message); // Log detailed error
+//       return thunkAPI.rejectWithValue(error.response?.data?.message || 'An error occurred during login.');
+   
 //     }
 //   }
 // );
@@ -73,7 +69,9 @@
 
 
 
+
 // src/redux/authSlice.js
+
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
@@ -99,7 +97,9 @@ export const login = createAsyncThunk(
 
       return { token: accessToken, user };
     } catch (error) {
-      return thunkAPI.rejectWithValue('An error occurred during login.');
+      console.error('Login error:', error.response?.data || error.message); // Log detailed error
+      return thunkAPI.rejectWithValue(error.response?.data?.message || 'An error occurred during login.');
+   
     }
   }
 );

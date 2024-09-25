@@ -4,12 +4,14 @@
 // import { FaUpload, FaTrash } from 'react-icons/fa';
 // import { AiOutlineFileImage } from 'react-icons/ai';
 // import axios from 'axios';
+// import FileUpload from '../../components/FormInput/FileUpload';
+// import PreviewImage from '../../components/FormInput/PreviewImage';
 
 // const AddNewBrand = () => {
 //   const [selectedLanguage, setSelectedLanguage] = useState('en');
-//   const [imagePreview, setImagePreview] = useState('');
+//   const [imagePreview, setImagePreview] = useState(null);
 //   const [brandName, setBrandName] = useState('');
-//   const [status, setStatus] = useState("inactive");
+//   const [status, setStatus] = useState('inactive');
 //   const [imageAltText, setImageAltText] = useState('');
 //   const [image, setImage] = useState(null);
 
@@ -19,13 +21,9 @@
 
 //   const handleImageChange = (e) => {
 //     const file = e.target.files[0];
-//     const reader = new FileReader();
-//     reader.onloadend = () => {
-//       setImagePreview(reader.result);
-//     };
 //     if (file) {
-//       reader.readAsDataURL(file);
 //       setImage(file);
+//       setImagePreview(URL.createObjectURL(file));
 //     }
 //   };
 
@@ -37,8 +35,8 @@
 //     formData.append('imageAltText', imageAltText);
 //     formData.append('status', status);
 
+//      console.log("form daa============", formData)
 //     try {
-//       console.log("--------------brand", formData)
 //       const response = await axios.post('http://localhost:3000/api/brands', formData, {
 //         headers: {
 //           'Content-Type': 'multipart/form-data'
@@ -46,13 +44,13 @@
 //       });
 //       alert('Brand added successfully!');
 //     } catch (error) {
-//       alert('Error adding brand: ' + error.response.data.message);
+//       alert('Error adding brand: ' + error.response?.data?.message || error.message);
 //     }
 //   };
 
 //   const handleReset = () => {
 //     setSelectedLanguage('en');
-//     setImagePreview('');
+//     setImagePreview(null);
 //     setBrandName('');
 //     setImageAltText('');
 //     setImage(null);
@@ -84,46 +82,38 @@
 //                     <span className={`nav-link form-system-language-tab cursor-pointer ${selectedLanguage === 'in' ? '' : ''}`} onClick={() => handleLanguageChange('in')}> Hindi(IN) </span>
 //                   </li>
 //                 </ul>
-//                 <div className="row flex">
-//                   <div className="col-md-6">
+//                 <div className="row flex ">
+//                 <div className="col-md-6">
+//                   <div className="col-md-12">
 //                     <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-form">
 //                       <label htmlFor="name-en" className="title-color"> Brand Name <span className="text-danger">*</span> (EN) </label>
 //                       <input type="text" name="name-en" className="form-control" id="name-en" placeholder="Ex : LUX" required value={brandName} onChange={(e) => setBrandName(e.target.value)} />
 //                     </div>
 //                   </div>
-
-//                   <div className="col-md-6">
-//                     <div className="form-group">
-//                       <label className="title-color"> Logo <span className="text-danger">*</span> </label>
-//                       <label htmlFor="customFileEg1" className="custom-file-upload w-100 d-flex flex-column align-items-center justify-content-center">
-//                         <FaUpload className="upload-icon" />
-//                         <input type="file" name="image" id="customFileEg1" className="d-none" accept="image/*" onChange={handleImageChange} />
-//                         <div className="upload-area">
-//                           {imagePreview ? (
-//                             <img id="viewer" src={imagePreview} alt="brand logo" className="img-fluid rounded" />
-//                           ) : (
-//                             <div>
-//                               <AiOutlineFileImage className="upload-icon" />
-//                               <span className="upload-label">Upload Image</span>
-//                             </div>
-//                           )}
-//                         </div>
-//                       </label>
-//                       {imagePreview && (
-//                         <div className="mt-3">
-//                           <button type="button" className="btn btn-danger" onClick={() => setImagePreview('')}><FaTrash /> Remove</button>
-//                         </div>
-//                       )}
-//                     </div>
-//                   </div>
-//                   <div className="col-md-6">
+//                   <div className="col-md-12">
 //                     <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-alt-form">
 //                       <label htmlFor="alt-text-en" className="title-color"> Image Alt Text <span className="text-danger">*</span> (EN) </label>
 //                       <input type="text" name="alt-text-en" className="form-control" id="alt-text-en" placeholder="Ex : Brand Logo" required value={imageAltText} onChange={(e) => setImageAltText(e.target.value)} />
 //                     </div>
 //                   </div>
-              
-//                 </div>
+//                   </div>
+                
+//                 <div className="col-md-6">
+                 
+        
+//                     {imagePreview ? (
+//                       <PreviewImage image={image} altText={imageAltText} />
+//                     ) : (
+//                       <PreviewImage image={null} altText={imageAltText} />
+//                     )}
+//                     <FileUpload
+//                       name="image"
+//                       label="Logo"
+//                       accept="image/*"
+//                       onChange={handleImageChange}
+//                     />
+//                   </div>
+//                   </div>
 //                 <div className="d-flex justify-content-end">
 //                   <button type="reset" className="btn btn-secondary mx-2" onClick={handleReset}>Reset</button>
 //                   <button type="submit" className="btn btn-primary">Submit</button>
@@ -142,6 +132,7 @@
 
 
 
+
 import React, { useState } from 'react';
 import { FaUpload, FaTrash } from 'react-icons/fa';
 import { AiOutlineFileImage } from 'react-icons/ai';
@@ -156,6 +147,9 @@ const AddNewBrand = () => {
   const [status, setStatus] = useState('inactive');
   const [imageAltText, setImageAltText] = useState('');
   const [image, setImage] = useState(null);
+
+  // Retrieve token from local storage
+  const token = localStorage.getItem('token');
 
   const handleLanguageChange = (lang) => {
     setSelectedLanguage(lang);
@@ -180,7 +174,8 @@ const AddNewBrand = () => {
     try {
       const response = await axios.post('http://localhost:3000/api/brands', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}` // Include token in headers
         }
       });
       alert('Brand added successfully!');
@@ -223,25 +218,23 @@ const AddNewBrand = () => {
                     <span className={`nav-link form-system-language-tab cursor-pointer ${selectedLanguage === 'in' ? '' : ''}`} onClick={() => handleLanguageChange('in')}> Hindi(IN) </span>
                   </li>
                 </ul>
-                <div className="row flex ">
-                <div className="col-md-6">
-                  <div className="col-md-12">
-                    <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-form">
-                      <label htmlFor="name-en" className="title-color"> Brand Name <span className="text-danger">*</span> (EN) </label>
-                      <input type="text" name="name-en" className="form-control" id="name-en" placeholder="Ex : LUX" required value={brandName} onChange={(e) => setBrandName(e.target.value)} />
+                <div className="row flex">
+                  <div className="col-md-6">
+                    <div className="col-md-12">
+                      <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-form">
+                        <label htmlFor="name-en" className="title-color"> Brand Name <span className="text-danger">*</span> (EN) </label>
+                        <input type="text" name="name-en" className="form-control" id="name-en" placeholder="Ex : LUX" required value={brandName} onChange={(e) => setBrandName(e.target.value)} />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-alt-form">
+                        <label htmlFor="alt-text-en" className="title-color"> Image Alt Text <span className="text-danger">*</span> (EN) </label>
+                        <input type="text" name="alt-text-en" className="form-control" id="alt-text-en" placeholder="Ex : Brand Logo" required value={imageAltText} onChange={(e) => setImageAltText(e.target.value)} />
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-12">
-                    <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-alt-form">
-                      <label htmlFor="alt-text-en" className="title-color"> Image Alt Text <span className="text-danger">*</span> (EN) </label>
-                      <input type="text" name="alt-text-en" className="form-control" id="alt-text-en" placeholder="Ex : Brand Logo" required value={imageAltText} onChange={(e) => setImageAltText(e.target.value)} />
-                    </div>
-                  </div>
-                  </div>
-                
-                <div className="col-md-6">
-                 
-        
+
+                  <div className="col-md-6">
                     {imagePreview ? (
                       <PreviewImage image={image} altText={imageAltText} />
                     ) : (
@@ -254,7 +247,7 @@ const AddNewBrand = () => {
                       onChange={handleImageChange}
                     />
                   </div>
-                  </div>
+                </div>
                 <div className="d-flex justify-content-end">
                   <button type="reset" className="btn btn-secondary mx-2" onClick={handleReset}>Reset</button>
                   <button type="submit" className="btn btn-primary">Submit</button>
@@ -269,5 +262,3 @@ const AddNewBrand = () => {
 };
 
 export default AddNewBrand;
-
-

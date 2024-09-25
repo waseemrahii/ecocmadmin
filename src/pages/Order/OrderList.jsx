@@ -49,7 +49,7 @@ const OrderList = () => {
         <div className="d-flex flex-wrap gap-2 align-items-center mb-3">
           <h2 className="h1 mb-0 flex">
             <img
-              src="https://6valley.6amtech.com/public/assets/back-end/img/all-orders.png"
+              src="/all-orders.png"
               className="mb-1 mr-1"
               alt="Orders"
             />
@@ -73,7 +73,7 @@ const OrderList = () => {
                   <button
                     type="button"
                     className="btn px-4 py-2 justify-center align-items-center bg-[#A1CB46] text-white hover:bg-[#7e9f37] text-nowrap btn-block flex gap-2"
-                    style={{ display: "flex", background: "green" }}
+                    style={{ display: "flex", color:"white" }}
                     data-toggle="dropdown"
                   >
                     <FaDownload /> Export
@@ -139,12 +139,12 @@ const OrderList = () => {
                         >
                           <FaEdit size={18} />
                         </button> */}
-                        <button
+                        {/* <button
                           className="btn bg-red-300 text-white btn-sm ml-2"
                           onClick={() => handleDeleteOrder(order._id)}
                         >
                           <FaTrashAlt size={18} />
-                        </button> 
+                        </button>  */}
                       </td>
                     </tr>
                   ))}
@@ -159,7 +159,7 @@ const OrderList = () => {
               </table>
             </div>
 
-            <div className="d-flex justify-content-end align-items-center mb-3">
+            {/* <div className="d-flex justify-content-end align-items-center mb-3">
               <nav className="d-flex gap-2" aria-label="Page navigation">
                 <ul className="pagination mb-0">
                   <li className="page-item disabled">
@@ -186,7 +186,7 @@ const OrderList = () => {
                   </li>
                 </ul>
               </nav>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

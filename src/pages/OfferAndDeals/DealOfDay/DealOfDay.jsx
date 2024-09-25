@@ -34,7 +34,7 @@ const DealOfTheDay = () => {
   const fetchDeals = async () => {
     try {
       const response = await axios.get("http://localhost:3000/api/products/");
-      const formattedDeals = response.data.products.map((deal) => ({
+      const formattedDeals = response.data.docs.products.map((deal) => ({
         id: deal._id,
         title: deal.name,
         productInfo: deal.description,

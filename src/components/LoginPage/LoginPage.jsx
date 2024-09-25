@@ -122,6 +122,8 @@
 
 
 
+//////////////////////
+
 
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -149,7 +151,7 @@ const LoginPage = () => {
       const resultAction = await dispatch(login({ email, password }));
       if (login.fulfilled.match(resultAction)) {
         toast.success('Login successful');
-        navigate('/');
+        navigate('/dashboard');
       } else {
         toast.error(resultAction.payload || 'Invalid email or password');
       }
@@ -177,6 +179,8 @@ const LoginPage = () => {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              autoComplete="email" // Added autocomplete attribute
+
             />
           </div>
           <div className="form-group">

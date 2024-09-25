@@ -103,7 +103,7 @@ const FeatureDeal = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log("deal id ========", dealId)
+        // console.log("deal id ========", dealId)
         fetch(`http://localhost:3000/api/feature-deals/${dealId}`, {
           method: "DELETE",
         })

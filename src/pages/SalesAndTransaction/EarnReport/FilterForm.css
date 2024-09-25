@@ -1,4 +1,4 @@
-
+/* 
 
 :root { 
     --c1: #0177cd; 
@@ -347,11 +347,4 @@ label {
     transform: scale(1) translateY(-1.3rem) translateX(0rem);
 } 
 
-
-/* These were inline style tags. Uses id+class to override almost everything */
-#from_div.style-Xh1Nb {  
-   display: none;  
-}  
-#to_div.style-Cvapg {  
-   display: none;  
-}  
+ */

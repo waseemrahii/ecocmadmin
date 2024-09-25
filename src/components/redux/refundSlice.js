@@ -9,7 +9,7 @@ export const fetchRefundsForVendor = createAsyncThunk(
   'refund/fetchRefundsForVendor',
   async (vendorId) => {
     const response = await axios.get(`http://localhost:3000/api/refunds/vendor/?vendorId=${vendorId}`);
-    return response.data.docs;
+    return response.data.doc;
   }
 );
 
@@ -20,7 +20,7 @@ export const fetchRefundsForVendorByStatus = createAsyncThunk(
     const response = await 
     axios.get
     (`http://localhost:3000/api/refunds/?status=${status}`);
-    return response.data.docs;
+    return response.data.doc;
   }
 );
 

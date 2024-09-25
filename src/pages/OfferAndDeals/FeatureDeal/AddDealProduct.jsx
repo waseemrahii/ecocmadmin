@@ -76,11 +76,12 @@ const AddNewProductComponent = () => {
         event.preventDefault();
         if (selectedProduct) {
             try {
+                console.log("selcted product id ==========", selectedProduct)
                 const response = await axios.put(`http://localhost:3000/api/feature-deals/${id}/add-product`, {
-                    productId: selectedProduct.id,
+                    productId: selectedProduct._id,
                 });
                 toast.success('Product added successfully.');
-                console.log('Product added successfully:', response.data);
+                // console.log('Product added successfully:', response.data);
                 fetchFeatureDeal(); // Fetch updated feature deal data
             } catch (error) {
                 console.error('Error adding product to feature deal:', error);
@@ -106,7 +107,7 @@ const AddNewProductComponent = () => {
             if (result.isConfirmed) {
                 await axios.delete(`http://localhost:3000/api/feature-deals/${id}/remove-product/${productId}`);
                 toast.success('Product removed successfully.');
-                console.log('Product removed successfully');
+                // console.log('Product removed successfully');
                 fetchFeatureDeal(); // Fetch updated feature deal data
             }
         } catch (error) {

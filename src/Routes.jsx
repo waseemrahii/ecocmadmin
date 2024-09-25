@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import AttributeSetup from "./pages/ProductAttributeSetUp/ProductAttributeSetUp";
-import MainHouseAddProduct from "./pages/In_House_Product/AddProduct/mainHouseAddProduct";
 import WelcomePage from "./pages/WelcomePage/WelcomePage";
 import Categories from "./pages/Categoreis/Categories";
 import SubCateggories from "./pages/Categoreis/SubCateggories";
@@ -71,7 +70,7 @@ import SubEdit from "./pages/Categoreis/Subcategoryedit";
 import BrandUpdate from "./pages/Brands/BrandUpdate";
 import UpdateAttribute from "./pages/ProductAttributeSetUp/UpdateAtribute";
 import GenerateBarcode from "./pages/In_House_Product/InHouseProductList/GeneratCode/GeneratCode";
-import ProductDetails from "./pages/In_House_Product/InHouseProductList/InhouseProductbutton/ProductDetail.jsx";
+import ProductDetails from "./pages/In_House_Product/InHouseProductList/ProductDetail/ProductDetail.jsx";
 import BannerUpdateForm from "./pages/faisal/BannerSetup/BannerSetupForm";
 import AddBannerForm from "./pages/faisal/BannerSetup/AddBanner";
 import CouponUpdate from "./pages/OfferAndDeals/Coupon/CouponUpdate";
@@ -86,6 +85,7 @@ import InHouseSales from "./pages/faisal/ReportAndAnalysis/SalesAndTranscationRe
 import VendorSales from "./pages/faisal/ReportAndAnalysis/SalesAndTranscationReports/VendorSales";
 import TranscatioReports from "./pages/faisal/ReportAndAnalysis/SalesAndTranscationReports/TransctionReports/TranscatioReports";
 import AddInHouseNewProduct from "./pages/In_House_Product/AddProduct/AddProduct";
+import ProfileInformation from "./components/new/Footer/ProfileInformation/ProfileInformation";
 
 import AddFlashDealProdcut from "./pages/OfferAndDeals/FlashDeal/addFlashDealProdcut.jsx";
 
@@ -108,7 +108,8 @@ import {
   VendorApprovedProductPage,
   VendorDeniedProductPage
 } from "./pages/In_House_Product/InHouseProductList/ProductManagmentComponent.jsx";// Adjust the import path as needed
-
+import InhouseProductUpdate from "./pages/In_House_Product/AddProduct/InhouseProductUpdate.jsx";
+import SubCategoriess from "./pages/Categoreis/SubCategories/SubCategories.jsx";
 
 function AllRoutes() {
 
@@ -131,17 +132,22 @@ function AllRoutes() {
                   <Route path="/approverefundrequests" element={<ApprovedRefunds />} />
                   <Route path="/refunded" element={<RefundedRefunds />} />
                   <Route path="/rejected" element={<RejectedRefunds />} />
+                  <Route
+                    path="/profileinformation"
+                    element={<ProfileInformation />}
+                  />
                   <Route path="/refounddetail/:id" element={<RefundDetails />} />
                   <Route path="/productattributesetup" element={<AttributeSetup />} />
                   <Route path="/productattributeupdate" element={<UpdateAttribute />} />
                   <Route path="/inhouseproductlist" element={<InHouseProductPage />} />
                   <Route path="/inhouseproductlistcode" element={<GenerateBarcode />} />
                   <Route path="/products/:productId" element={<ProductDetails />} />
-                  {/* <Route path="/inhouseaddproduct" element={<MainHouseAddProduct />} /> */}
+                  <Route path="//product/:id" element={<InhouseProductUpdate />} />
                   <Route path="/inhouseaddproduct" element={<AddInHouseNewProduct />} />
                   <Route path="/categories" element={<Categories />} />
                   <Route path="/categoryedit/:id" element={<CategoryUpdate />} />
-                  <Route path="/subcategories" element={<SubCateggories />} />
+                  {/* <Route path="/subcategories" element={<SubCateggories />} /> */}
+                  <Route path="/subcategories" element={<SubCategoriess />} />
                   <Route path="/subedit" element={<SubEdit />} />
                   <Route path="/subsubcategories" element={<Sub_Sub_Categories />} />
                   <Route path="/addnewbrand" element={<AddNewBrand />} />
@@ -222,9 +228,8 @@ function AllRoutes() {
                   <Route path="/addvenderwallet" element={<VenderWallet />} />
                   <Route path="/addvenderwalletmethod" element={<VenderWalletMethod />} />
                   <Route path="/addvenderwidthrawtmethod" element={<WithdrawalMethods />} />
-                  
-                  {/* Add other routes here as needed */}
-                </Routes>
+  
+                  </Routes>
                 </>
   );
 }
@@ -313,7 +318,6 @@ export default AllRoutes;
 // const BrandUpdate = lazy(() => import("./pages/Brands/BrandUpdate"));
 // const UpdateAttribute = lazy(() => import("./pages/ProductAttributeSetUp/UpdateAtribute"));
 // const GenerateBarcode = lazy(() => import("./pages/In_House_Product/InHouseProductList/GeneratCode/GeneratCode"));
-// const ProductDetails = lazy(() => import("./pages/In_House_Product/InHouseProductList/InhouseProductbutton/ProductDetail.jsx"));
 // const BannerUpdateForm = lazy(() => import("./pages/faisal/BannerSetup/BannerSetupForm"));
 // const AddBannerForm = lazy(() => import("./pages/faisal/BannerSetup/AddBanner"));
 // const CouponUpdate = lazy(() => import("./pages/OfferAndDeals/Coupon/CouponUpdate"));
@@ -357,7 +361,8 @@ export default AllRoutes;
 //         <Route path="/dashboard" element={<WelcomePage />} />
 //         <Route path="/allorders" element={<OrderList />} />
 //         <Route path="/orderdetail/:id" element={<OrderDeatiels />} />
-//         <Route path="/pendingorders" element={<PendingOrders />} />
+//         <Route path="/pendingorder" element={<PendingOrders />} />
+//         <Route path="/confirmedorder" element={<ConfirmedOrders />} />
 //         <Route path="/pendingrefundrequests" element={<PendingRefunds />} />
 //         <Route path="/refunddetail/:id" element={<RefundDetails />} />
 //         <Route path="/approverefundrequests" element={<ApprovedRefunds />} />

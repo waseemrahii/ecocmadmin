@@ -16,14 +16,13 @@ const SubCategories = () => {
     priority: '',
   });
 
-  const [activeTab, setActiveTab] = useState('en'); // State to manage active language tab
+  const [activeTab, setActiveTab] = useState('en');
 
   useEffect(() => {
-    // Fetch categories from backend
     axios.get(`${ApiUrl}categories/`)
       .then(response => {
    
-        setCategories(response.data.docs); // Assuming your API response has a 'data' field
+        setCategories(response.data.doc);
       })
       .catch(error => {
         console.error('Error fetching categories:', error);
@@ -33,7 +32,7 @@ const SubCategories = () => {
     axios.get(`${ApiUrl}sub-categories/`)
       .then(response => {
       
-        setSubCategories(response.data.docs.subCategories ); // Assuming your API response has a 'data' field
+        setSubCategories(response.data.doc ); 
       })
       .catch(error => {
         console.error('Error fetching subcategories:', error);
@@ -43,14 +42,14 @@ const SubCategories = () => {
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log("sub cateogry form data--------------", formData)
     // POST request to create subcategory
-    axios.post(`${ApiUrl}sub-categories/`, formData)
+    axios.post(`${ApiUrl}sub-categories`, formData)
       .then(response => {
-        console.log('Subcategory created successfully:', response.data);
+        console.log('Subcategory created successfully:', response.data.doc);
         // Update subCategories state to include the new subcategory
         setSubCategories([...subCategories, response.data.doc]);
         Swal.fire('Added!', 'The subcategory has been added.', 'success');       
-        // Clear form fields after submission
         setFormData({
           name: '',
           mainCategory: '',
@@ -59,6 +58,7 @@ const SubCategories = () => {
       })
       .catch(error => {
         console.error('Error creating subcategory:', error);
+        alert("errorrrrrrrrrrrrrrrrr", error)
       });
   };
 

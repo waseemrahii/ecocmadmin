@@ -1,4 +1,4 @@
-
+/* 
 :root { 
     --c1: #0177cd; 
     --title-color: #334257; 
@@ -504,13 +504,10 @@ b {
     font-size: 16px;
     cursor: pointer;
   }
-   */
-  /* .btn:hover {
-    background: #45a049;
-  }
-   */
+   
+
   .error-message {
     color: red;
     margin-bottom: 10px;
   }
-   
+    */

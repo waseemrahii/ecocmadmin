@@ -175,7 +175,7 @@ const LoginPage = () => {
               type="email"
               className="form-control form-control-lg mb-4 p-3 rounded border border-gray-300 w-full"
               id="email"
-              placeholder="admin@admin.com"
+              placeholder="admin23@mail.com"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -190,7 +190,7 @@ const LoginPage = () => {
                 type={showPassword ? 'text' : 'password'}
                 className="form-control form-control-lg mb-4 p-3 rounded border border-gray-300 w-full"
                 id="password"
-                placeholder="12345678"
+                placeholder="test12345"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

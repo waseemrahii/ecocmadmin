@@ -7,7 +7,7 @@ import axios from 'axios';
 import { FiEye, FiTrash } from 'react-icons/fi'; // Import icons for actions
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import ApiUrl from '../../../../ApiUrl';
 const ProductDetail = () => {
   const { productId } = useParams();
   const [productData, setProductData] = useState(null);
@@ -15,9 +15,9 @@ const ProductDetail = () => {
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/api/products/${productId}`);
+        const response = await axios.get(`${ApiUrl}products/${productId}`);
         if (response.status === 200) {
-          console.log("API Response Data:", response.data);
+          // console.log("API Response Data:", response.data);
           setProductData(response.data.doc);
         } else {
           console.error('Failed to fetch product data');
@@ -33,7 +33,7 @@ const ProductDetail = () => {
   const handleStatusChange = async (reviewId, currentStatus) => {
     const newStatus = currentStatus === 'Active' ? 'Inactive' : 'Active';
     try {
-      await axios.put(`http://localhost:3000/api/products/${productId}/reviews/${reviewId}/status`, { status: newStatus });
+      await axios.put(`${ApiUrl}products/${productId}/reviews/${reviewId}/status`, { status: newStatus });
       setProductData(prevData => ({
         ...prevData,
         reviews: prevData.reviews.map(review =>
@@ -56,7 +56,7 @@ const ProductDetail = () => {
     try {
       console.log("Deleting review with ID:", reviewId);
       console.log("Deleting review with Product ID:", productId);
-      await axios.delete(`http://localhost:3000/api/products/${productId}/reviews/${reviewId}`);
+      await axios.delete(`${ApiUrl}products/${productId}/reviews/${reviewId}`);
       console.log("Deleted successfully");
       setProductData(prevData => ({
         ...prevData,
@@ -74,7 +74,7 @@ const ProductDetail = () => {
   }
 
   // Ensure default values are set for properties
-  const thumbnailUrl = productData.thumbnail ? `http://localhost:3000/${productData.thumbnail.replace(/\\/g, '/')}` : '/default-thumbnail.png';
+  const thumbnailUrl = productData.thumbnail ? `https://lionfish-app-tdhk5.ondigitalocean.app/${productData.thumbnail.replace(/\\/g, '/')}` : '/default-thumbnail.png';
   const {
     thumbnail = '/default-thumbnail.png',
     images = [],
@@ -121,14 +121,14 @@ const ProductDetail = () => {
                 <img className="avatar avatar-170 rounded-0" style={{width:"10rem", height:"10rem"}} src={thumbnailUrl} alt="Product" />
               </a>
               <div className="d-flex gap-1 flex-wrap justify-content-center">
-                <a
+                {/* <a
                   href={thumbnailUrl}
                   className="btn btn-outline--primary mr-1 mt-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <FaGlobe /> View Live
-                </a>
+                </a> */}
               </div>
             </div>
             <div className="d-block flex-grow-1 w-max-md-100">
@@ -142,7 +142,7 @@ const ProductDetail = () => {
               <div className="d-flex flex-wrap align-items-center flex-sm-nowrap justify-content-between gap-3 min-h-50">
                 <div className="d-flex flex-wrap gap-2 align-items-center">
                   {productData.images.map((imgUrl, index) => {
-                    const fullImgUrl = `http://localhost:3000/${imgUrl.replace(/\\/g, '/')}`;
+                    const fullImgUrl = `https://lionfish-app-tdhk5.ondigitalocean.app/${imgUrl.replace(/\\/g, '/')}`;
                     return (
                       <div key={index} className="aspect-1 float-left overflow-hidden d-block border rounded-lg position-relative">
                         <a
@@ -158,9 +158,9 @@ const ProductDetail = () => {
                 </div>
 
                 {  
-                 console.log("product=============",productData)
+                //  console.log("product=============",productData)
                 }
-                <span className="text-dark">{productData.reviews.length} Reviews</span>
+                <span className="text-dark">{productData.reviews?.length} Reviews</span>
               </div>
               <div className="d-block mt-2">
                 <div className="lang-form" id="en-form">
@@ -235,13 +235,13 @@ const ProductDetail = () => {
               <div>
                 <h6 className="mb-3 text-capitalize">{productData.name}</h6>
               </div>
-              <p className="text-capitalize">
+              {/* <p className="text-capitalize">
               <div
                     className="rich-editor-html-content"
                     dangerouslySetInnerHTML={{ __html: description }}
                 />
 
-              </p>
+              </p> */}
               <div className="d-flex flex-wrap gap-2">
                 <a
                   className="text-dark border rounded p-2 d-flex align-items-center justify-content-center gap-1"
@@ -258,7 +258,7 @@ const ProductDetail = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <AiOutlineShoppingCart /> Product Video
+                    <AiOutlineShoppingCart /> SEO Video
                   </a>
                 )}
               </div>
@@ -285,7 +285,7 @@ const ProductDetail = () => {
               </tr>
             </thead>
             <tbody className='p-8'>
-              {productData.reviews.length ? (
+              {productData.reviews?.length ? (
                 productData.reviews.map((review, index) => (
                   <tr key={index}>
                     <td>{review.customer?.firstName}</td>
@@ -340,4 +340,5 @@ const ProductDetail = () => {
 };
 
 export default ProductDetail;
+
 

@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategories, createCategory, deleteCategory } from '../../components/redux/categorySlice';
+import { fetchCategories, createCategory, deleteCategory }
+ from '../../components/redux/categorySlice';
 import CategoryForm from './CategoryForm';
 import CategoryList from './CategoryList';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,7 +12,8 @@ const Categories = () => {
   const dispatch = useDispatch();
   const { categories, loading, error } = useSelector((state) => state.productCategory);
   
-  const [newCategory, setNewCategory] = useState({ name: '', priority: '', logo: null });
+  // const [newCategory, setNewCategory] = useState({ name: '', priority: '', logo: null });
+  const [newCategory, setNewCategory] = useState({ name: '', logo: null });
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLang, setSelectedLang] = useState('en');
 
@@ -47,13 +49,14 @@ const Categories = () => {
 
     const formData = new FormData();
     formData.append('name', newCategory.name);
-    formData.append('priority', newCategory.priority);
+    // formData.append('priority', newCategory.priority);
     formData.append('logo', newCategory.logo);
 
     try {
       const action = await dispatch(createCategory(formData));
       if (createCategory.fulfilled.match(action)) {
-        setNewCategory({ name: '', priority: '', logo: null });
+        // setNewCategory({ name: '', priority: '', logo: null });
+        setNewCategory({ name: '',  logo: null });
         toast.success('Category added successfully');
         
         // Fetch categories again to update the list

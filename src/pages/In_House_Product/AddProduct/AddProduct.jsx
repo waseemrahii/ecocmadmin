@@ -1,287 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { fetchCategories, fetchBrands, fetchColors, fetchAttributes,
-//    fetchSubCategories, fetchSubSubCategories } from
-//     '../../../components/redux/categorybrandSlice';
-
-// import { createProduct } from 
-// '../../../components/redux/product/productSlice';
-
-// const AddNewProduct = () => {
-//   const dispatch = useDispatch();
-//   const { user } = useSelector(state => state.auth);
-//    const userId = user._id
-//   const { categories, subCategories, subSubCategories, brands, colors, attributes } = useSelector((state) => state.category);
-
-//   const [formData, setFormData] = useState({
-//     name: '',
-//     description: '',
-//     category: '',
-//     subCategorySlug: '',
-//     subSubCategorySlug: '',
-//     brand: '',
-//     productType: '',
-//     digitalProductType: '',
-//     sku: '',
-//     unit: '',
-//     tags: '',
-//     price: '',
-//     discount: '',
-//     discountType: '',
-//     discountAmount: '',
-//     taxAmount: '',
-//     taxIncluded: false,
-//     minimumOrderQty: '',
-//     shippingCost: '',
-//     stock: '',
-//     isFeatured: false,
-//     videoLink: '',
-//   });
-
-//   const [thumbnail, setThumbnail] = useState(null);
-//   const [images, setImages] = useState([]);
-//   const [imagePreview, setImagePreview] = useState('');
-//   const [errorMessage, setErrorMessage] = useState('');
-//   const [selectedColors, setSelectedColors] = useState([]);
-//   const [selectedAttribute, setSelectedAttribute] = useState('');
-//   const [productAttributes, setProductAttributes] = useState([]);
-
-//   useEffect(() => {
-//     dispatch(fetchCategories());
-//     dispatch(fetchBrands());
-//     dispatch(fetchColors());
-//     dispatch(fetchAttributes());
-//   }, [dispatch]);
-
-//   useEffect(() => {
-//     if (formData.category) {
-//       dispatch(fetchSubCategories(formData.category));
-//     }
-//   }, [dispatch, formData.category]);
-
-//   useEffect(() => {
-//     if (formData.subCategorySlug) {
-//       dispatch(fetchSubSubCategories(formData.subCategorySlug));
-//     }
-//   }, [dispatch, formData.subCategorySlug]);
-
-//   const handleChange = (e) => {
-//     const { name, value, type, checked } = e.target;
-//     setFormData({
-//       ...formData,
-//       [name]: type === 'checkbox' ? checked : value,
-//     });
-//   };
-
-//   const handleThumbnailChange = (e) => {
-//     const file = e.target.files[0];
-//     setThumbnail(file);
-//     const reader = new FileReader();
-//     reader.onloadend = () => setImagePreview(reader.result);
-//     reader.readAsDataURL(file);
-//   };
-
-//   const handleImageChange = (e) => {
-//     const files = Array.from(e.target.files);
-//     setImages(files);
-//   };
-
-//   const handleColorChange = (color) => {
-//     setSelectedColors(prevColors =>
-//       prevColors.includes(color)
-//         ? prevColors.filter(c => c !== color)
-//         : [...prevColors, color]
-//     );
-//   };
-
-//   const handleAttributeChange = (e) => {
-//     setSelectedAttribute(e.target.value);
-//   };
-
-//   const addAttribute = () => {
-//     if (selectedAttribute) {
-//       const selectedAttr = attributes.find(attr => attr._id === selectedAttribute);
-//       if (selectedAttr) {
-//         setProductAttributes(prevAttrs => [
-//           ...prevAttrs,
-//           { _id: selectedAttr._id, name: selectedAttr.name }
-//         ]);
-//         setSelectedAttribute('');
-//       }
-//     }
-//   };
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     const productFormData = new FormData();
-
-//     for (const key in formData) {
-//       let value = formData[key];
-
-//       if (key === 'tags') {
-//         const tagsArray = value.split(',').map(tag => tag.trim()).filter(tag => tag);
-//         tagsArray.forEach(tag => productFormData.append('tags[]', tag));
-//       } else {
-//         switch (key) {
-//           case 'price':
-//           case 'discount':
-//           case 'discountAmount':
-//           case 'taxAmount':
-//           case 'shippingCost':
-//           case 'minimumOrderQty':
-//           case 'stock':
-//             value = parseFloat(value) || 0;
-//             break;
-//           case 'taxIncluded':
-//           case 'isFeatured':
-//             value = value === 'true';
-//             break;
-//           default:
-//             value = String(value);
-//             break;
-//         }
-//         productFormData.append(key, value);
-//       }
-//     }
-
-//     if (thumbnail) {
-//       productFormData.append('thumbnail', thumbnail);
-//     }
-
-//     images.forEach((image) => {
-//       productFormData.append('images', image);
-//     });
-
-//     selectedColors.forEach((color) => {
-//       productFormData.append('colors[]', color);
-//     });
-
-//     productAttributes.forEach((attribute) => {
-//       productFormData.append('attributes[]', attribute._id);
-//     });
-//     productFormData.append('userId', userId);
-//       productFormData.append('userType', 'admin');
-
-//           // Log form data to console
-//     for (let [key, value] of productFormData.entries()) {
-//       console.log(key, value);
-//     }
-//     try {
-//       console.log("form data====", productFormData)
-//       await dispatch(createProduct(productFormData));
-//       alert('Product added successfully!');
-//     } catch (error) {
-//       setErrorMessage(`Error adding product: ${error.message}`);
-//       console.log(error);
-//     }
-//   };
-
-  
-// return (
-//     <form onSubmit={handleSubmit} className='p-20 flex flex-col gap-2'>
-//       {/* Form inputs for each field */}
-//       <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Product Name" required />
-//       <textarea name="description" value={formData.description} onChange={handleChange} placeholder="Product Description" required />
-      
-//       <select name="category" value={formData.category} onChange={handleChange} required>
-//         <option value="">Select Category</option>
-//         {categories.map(category => (
-//           <option key={category._id} value={category.slug}>{category.name}</option>
-//         ))}
-//       </select>
-      
-//       <select name="subCategorySlug" value={formData.subCategorySlug} onChange={handleChange}>
-//         <option value="">Select Sub-Category</option>
-//         {subCategories.map(subCategory => (
-//           <option key={subCategory._id} value={subCategory.slug}>{subCategory.name}</option>
-//         ))}
-//       </select>
-      
-//       <select name="subSubCategorySlug" value={formData.subSubCategorySlug} onChange={handleChange}>
-//         <option value="">Select Sub-Sub-Category</option>
-//         {subSubCategories.map(subSubCategory => (
-//           <option key={subSubCategory._id} value={subSubCategory.slug}>{subSubCategory.name}</option>
-//         ))}
-//       </select>
-      
-//       <select name="brand" value={formData.brand} onChange={handleChange} required>
-//         <option value="">Select Brand</option>
-//         {brands.map(brand => (
-//           <option key={brand._id} value={brand._id}>{brand.name}</option>
-//         ))}
-//       </select>
-      
-//       <input type="text" name="productType" value={formData.productType} onChange={handleChange} placeholder="Product Type" required />
-//       <input type="text" name="digitalProductType" value={formData.digitalProductType} onChange={handleChange} placeholder="Digital Product Type" />
-//       <input type="text" name="sku" value={formData.sku} onChange={handleChange} placeholder="SKU" required />
-//       <input type="text" name="unit" value={formData.unit} onChange={handleChange} placeholder="Unit" />
-//       <input type="text" name="tags" value={formData.tags} onChange={handleChange} placeholder="Tags (comma-separated)" />
-//       <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Price" required />
-//       <input type="number" name="discount" value={formData.discount} onChange={handleChange} placeholder="Discount" />
-//       <select name="discountType" value={formData.discountType} onChange={handleChange}>
-//         <option value="">Select Discount Type</option>
-//         <option value="percent">Percentage</option>
-//         <option value="fixed">Fixed Amount</option>
-//       </select>
-//       <input type="number" name="discountAmount" value={formData.discountAmount} onChange={handleChange} placeholder="Discount Amount" />
-//       <input type="number" name="taxAmount" value={formData.taxAmount} onChange={handleChange} placeholder="Tax Amount" />
-//       <input type="checkbox" name="taxIncluded" checked={formData.taxIncluded} onChange={handleChange} /> Tax Included
-//       <input type="number" name="minimumOrderQty" value={formData.minimumOrderQty} onChange={handleChange} placeholder="Minimum Order Quantity" />
-//       {/* <input type="number" name="quantity" value={formData.quantity} onChange={handleChange} placeholder="Quantity" /> */}
-//       <input type="number" name="shippingCost" value={formData.shippingCost} onChange={handleChange} placeholder="ShippingCost" />
-//       <input type="number" name="stock" value={formData.stock} onChange={handleChange} placeholder="Stock" />
-//       <input type="checkbox" name="isFeatured" checked={formData.isFeatured} onChange={handleChange} /> Featured
-//       <input type="text" name="videoLink" value={formData.videoLink} onChange={handleChange} placeholder="Video Link" />
-
-//       <input type="file" accept="image/*" onChange={handleThumbnailChange} />
-//       {imagePreview && <img src={imagePreview} alt="Thumbnail Preview" width="100" />}
-      
-//       <input type="file" accept="image/*" multiple onChange={handleImageChange} />
-      
-//       <div>
-//         <h3>Colors</h3>
-//         {colors.map(color => (
-//           <label key={color._id}>
-//             <input
-//               type="checkbox"
-//               checked={selectedColors.includes(color._id)}
-//               onChange={() => handleColorChange(color._id)}
-//             />
-//             {color.name}
-//           </label>
-//         ))}
-//       </div>
-
-//       <div>
-//         <h3>Attributes</h3>
-//         <select onChange={handleAttributeChange} value={selectedAttribute}>
-//           <option value="">Select Attribute</option>
-//           {attributes.map(attribute => (
-//             <option key={attribute._id} value={attribute._id}>{attribute.name}</option>
-//           ))}
-//         </select>
-//         <button type="button" onClick={addAttribute}>Add Attribute</button>
-//         <ul>
-//           {productAttributes.map(attr => (
-//             <li key={attr._id}>{attr.name}</li>
-//           ))}
-//         </ul>
-//       </div>
-      
-//       {errorMessage && <div className="error-message">{errorMessage}</div>}
-//       <button type="submit">Add Product</button>
-//     </form>
-//   );
-// };
-
-// export default AddNewProduct;
-
-
-
-
-
-
-////////////////////// correct 
 
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -303,9 +19,9 @@ const AddNewProduct = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    category: '',
-    subCategorySlug: '',
-    subSubCategorySlug: '',
+    category: '66f5a1c8f5fc68916264d6e2',
+    subCategorySlug: '66f5a436f5fc68916264d6f0',
+    subSubCategorySlug: '66f5552df5fc68916264d684',
     brand: '',
     productType: '',
     digitalProductType: '',
@@ -548,7 +264,7 @@ const AddNewProduct = () => {
         <option value="">Select Category</option>
         {categories.length > 0 ? (
           categories.map(category => (
-            <option key={category._id} value={category.slug}>
+            <option key={category._id} value={category._id}>
               {category.name}
             </option>
           ))
@@ -569,7 +285,7 @@ const AddNewProduct = () => {
         <option value="">Select Sub-Category</option>
         {subCategories.length > 0 ? (
           subCategories.map(subCategory => (
-            <option key={subCategory._id} value={subCategory.slug}>
+            <option key={subCategory._id} value={subCategory._id}>
               {subCategory.name}
             </option>
           ))
@@ -605,8 +321,8 @@ const AddNewProduct = () => {
     <select name="brand" value={formData.brand} onChange={handleChange} className="p-2 bg-white border rounded" required>
       <option value="">Select Brand</option>
       {brands.map(brand => (
-        // <option key={brand._id} value={brand._id}>{brand.name}</option>
-        <option key={brand._id} value="668e3d6bd14dbdf8f5904f3c">{brand.name}</option>
+        <option key={brand._id} value={brand._id}>{brand.name}</option>
+        // <option key={brand._id} value="">{brand.name}</option>
       ))}
     </select>
   </div>
@@ -856,3 +572,5 @@ const AddNewProduct = () => {
 };
 
 export default AddNewProduct;
+
+

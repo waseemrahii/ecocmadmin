@@ -10,14 +10,14 @@ const CategoryList = React.memo(({ categories, handleDelete, handleSearch, searc
         <td>{`C${category._id.substring(0, 6)}`}</td>
         <td>
           <img
-            src={`http://localhost:3000/uploads/${category.logo}`} 
+            src={`https://lionfish-app-tdhk5.ondigitalocean.app/uploads/${category.logo}`} 
             className="avatar" 
             alt={category.name} 
             aria-label="Category Logo"
           />
         </td>
         <td>{category.name}</td>
-        <td className='text-center'>{category.priority}</td>
+        <td className=''>{category.priority || '0'}</td>
         {/* <td className="text-center">
           <label className="switcher mx-auto">
             <input

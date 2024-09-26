@@ -167,12 +167,13 @@ const AddNewBrand = () => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('name', brandName);
-    formData.append('thumbnail', image);
+    formData.append('logo', image);
     formData.append('imageAltText', imageAltText);
-    formData.append('status', status);
+    // formData.append('status', status);
 
     try {
-      const response = await axios.post('http://localhost:3000/api/brands', formData, {
+
+      const response = await axios.post('https://lionfish-app-tdhk5.ondigitalocean.app/api/brands', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}` // Include token in headers

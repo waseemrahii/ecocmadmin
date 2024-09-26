@@ -102,7 +102,7 @@ const ProductTable = React.memo(({
                   <td>
                     <Link to="#" className="media align-items-center gap-2">
                       <img
-                        src={`http://localhost:3000/${product.thumbnail}`}
+                        src={`https://lionfish-app-tdhk5.ondigitalocean.app/${product.thumbnail}`}
                         className="avatar border"
                         alt={product.name}
                       />

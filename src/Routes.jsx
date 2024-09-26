@@ -69,7 +69,7 @@ import CategoryUpdate from "./pages/Categoreis/CategoryEdit/CategoryEdit";
 import SubEdit from "./pages/Categoreis/Subcategoryedit";
 import BrandUpdate from "./pages/Brands/BrandUpdate";
 import UpdateAttribute from "./pages/ProductAttributeSetUp/UpdateAtribute";
-import GenerateBarcode from "./pages/In_House_Product/InHouseProductList/GeneratCode/GeneratCode";
+// import GenerateBarcode from "./pages/In_House_Product/InHouseProductList/GeneratCode/GeneratCode";
 import ProductDetails from "./pages/In_House_Product/InHouseProductList/ProductDetail/ProductDetail.jsx";
 import BannerUpdateForm from "./pages/faisal/BannerSetup/BannerSetupForm";
 import AddBannerForm from "./pages/faisal/BannerSetup/AddBanner";
@@ -140,7 +140,7 @@ function AllRoutes() {
                   <Route path="/productattributesetup" element={<AttributeSetup />} />
                   <Route path="/productattributeupdate" element={<UpdateAttribute />} />
                   <Route path="/inhouseproductlist" element={<InHouseProductPage />} />
-                  <Route path="/inhouseproductlistcode" element={<GenerateBarcode />} />
+                  {/* <Route path="/inhouseproductlistcode" element={<GenerateBarcode />} /> */}
                   <Route path="/products/:productId" element={<ProductDetails />} />
                   <Route path="//product/:id" element={<InhouseProductUpdate />} />
                   <Route path="/inhouseaddproduct" element={<AddInHouseNewProduct />} />

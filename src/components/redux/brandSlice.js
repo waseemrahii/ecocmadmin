@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
+import API_URL from "../../ApiUrl"
 // API Endpoints
-const API_URL = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/brands';
+// const API_URL = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/brands';
 
 // Fetch brands
 export const fetchBrands = createAsyncThunk(

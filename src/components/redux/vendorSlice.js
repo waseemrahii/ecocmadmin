@@ -1,6 +1,5 @@
+
 // src/slices/vendorSlice.js
-
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -12,10 +11,11 @@ export const createVendor = createAsyncThunk(
   'vendors/createVendor',
   async (vendorData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(API_URL, vendorData, {
+      const response = await axios.post(`${API_URL}/signup`, vendorData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
+     
       });
       return response.data.docs;
     } catch (error) {
@@ -108,7 +108,7 @@ export const updateVendorStatus = createAsyncThunk(
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      return response.data.doc;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }

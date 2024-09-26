@@ -246,7 +246,9 @@ export const fetchProducts = createAsyncThunk(
   async (searchParams = {}, { rejectWithValue }) => {
     try {
       const response = await axios.get(API_URL, { params: searchParams });
+       console.log("dumary data  data :", response)
       return response.data.doc; // Return the entire response data
+      
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }

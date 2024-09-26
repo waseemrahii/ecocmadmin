@@ -399,7 +399,7 @@ export const fetchCategories = createAsyncThunk(
   'category/fetchCategories',
   async () => {
     const token = getAuthToken();
-    const response = await axios.get('http://localhost:3000/api/categories/', {
+    const response = await axios.get('https://lionfish-app-tdhk5.ondigitalocean.app/api/categories/', {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -455,7 +455,7 @@ export const fetchSubCategories = createAsyncThunk(
   'category/fetchSubCategories',
   async (mainCategoryId) => {
     const token = getAuthToken();
-    const response = await axios.get(`http://localhost:3000/api/sub-categories?mainCategory=${mainCategoryId}`, {
+    const response = await axios.get(`https://lionfish-app-tdhk5.ondigitalocean.app/api/sub-categories?mainCategory=${mainCategoryId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -469,7 +469,7 @@ export const fetchSubSubCategories = createAsyncThunk(
   async ({ mainCategoryId, subCategoryId }) => {
     try {
       const token = getAuthToken();
-      let url = 'http://localhost:3000/api/sub-sub-categories';
+      let url = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/sub-sub-categories';
       const params = new URLSearchParams();
 
       if (mainCategoryId) {
@@ -500,7 +500,7 @@ export const addSubSubCategory = createAsyncThunk(
   'category/addSubSubCategory',
   async (newSubSubCategory) => {
     const token = getAuthToken();
-    const response = await axios.post('http://localhost:3000/api/sub-sub-categories', newSubSubCategory, {
+    const response = await axios.post('https://lionfish-app-tdhk5.ondigitalocean.app/api/sub-sub-categories', newSubSubCategory, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -514,7 +514,7 @@ export const updateSubSubCategory = createAsyncThunk(
   'category/updateSubSubCategory',
   async ({ id, updatedData }) => {
     const token = getAuthToken();
-    const response = await axios.put(`http://localhost:3000/api/sub-sub-categories/${id}`, updatedData, {
+    const response = await axios.put(`https://lionfish-app-tdhk5.ondigitalocean.app/api/sub-sub-categories/${id}`, updatedData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -528,7 +528,7 @@ export const deleteSubSubCategory = createAsyncThunk(
   'category/deleteSubSubCategory',
   async (id) => {
     const token = getAuthToken();
-    await axios.delete(`http://localhost:3000/api/sub-sub-categories/${id}`, {
+    await axios.delete(`https://lionfish-app-tdhk5.ondigitalocean.app/api/sub-sub-categories/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

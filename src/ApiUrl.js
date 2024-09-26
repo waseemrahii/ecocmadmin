@@ -1,3 +1,3 @@
-const ApiUrl = 'http://localhost:3000/api/';
+const ApiUrl = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/';
 
 export default ApiUrl;

@@ -36,6 +36,7 @@ import refundReducer from './refundSlice';
 import vendorReducer from './vendorSlice'; 
 import brandReducer from './brandSlice'; 
 import productCategorySlice from './categorySlice'; 
+import productSubcategoryReducer from './subCategorySlice'; 
 
 const store = configureStore({
   reducer: {
@@ -47,6 +48,8 @@ const store = configureStore({
     vendor: vendorReducer,
     brand: brandReducer,
     productCategory: productCategorySlice,
+    productSubcategory: productSubcategoryReducer, // Added subcategory reducer
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

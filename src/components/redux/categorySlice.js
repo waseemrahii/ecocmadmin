@@ -3,10 +3,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import ApiUrl from '../../ApiUrl';
 
-// API Endpoints
 const API_URL = `${ApiUrl}categories`;
 
-// Helper function to get the token from local storage
 const getToken = () => {
   return localStorage.getItem('token');
 };

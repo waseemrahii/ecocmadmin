@@ -9,6 +9,7 @@ import brandReducer from './brandSlice';
 import productCategorySlice from './categorySlice'; 
 import productSubcategoryReducer from './subCategorySlice'; 
 import bannerReducer from './bannerSlice'; // Import the banner reducer
+import dealOfTheDayReducer from './DealOfDaySlice'; // Import the banner reducer
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     productCategory: productCategorySlice,
     productSubcategory: productSubcategoryReducer,
     banner: bannerReducer,
+    dealOfTheDay: dealOfTheDayReducer,
 
   },
   middleware: (getDefaultMiddleware) =>

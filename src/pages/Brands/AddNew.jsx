@@ -1,11 +1,10 @@
-
-
 // import React, { useState } from 'react';
 // import { FaUpload, FaTrash } from 'react-icons/fa';
 // import { AiOutlineFileImage } from 'react-icons/ai';
 // import axios from 'axios';
 // import FileUpload from '../../components/FormInput/FileUpload';
 // import PreviewImage from '../../components/FormInput/PreviewImage';
+// import ApiUrl from '../../ApiUrl';
 
 // const AddNewBrand = () => {
 //   const [selectedLanguage, setSelectedLanguage] = useState('en');
@@ -14,6 +13,9 @@
 //   const [status, setStatus] = useState('inactive');
 //   const [imageAltText, setImageAltText] = useState('');
 //   const [image, setImage] = useState(null);
+
+//   // Retrieve token from local storage
+//   const token = localStorage.getItem('token');
 
 //   const handleLanguageChange = (lang) => {
 //     setSelectedLanguage(lang);
@@ -31,15 +33,16 @@
 //     e.preventDefault();
 //     const formData = new FormData();
 //     formData.append('name', brandName);
-//     formData.append('thumbnail', image);
+//     formData.append('logo', image);
 //     formData.append('imageAltText', imageAltText);
-//     formData.append('status', status);
+//     // formData.append('status', status);
 
-//      console.log("form daa============", formData)
 //     try {
-//       const response = await axios.post('http://localhost:3000/api/brands', formData, {
+
+//       const response = await axios.post(`${ApiUrl}brands`, formData, {
 //         headers: {
-//           'Content-Type': 'multipart/form-data'
+//           'Content-Type': 'multipart/form-data',
+//           'Authorization': `Bearer ${token}` // Include token in headers
 //         }
 //       });
 //       alert('Brand added successfully!');
@@ -82,25 +85,23 @@
 //                     <span className={`nav-link form-system-language-tab cursor-pointer ${selectedLanguage === 'in' ? '' : ''}`} onClick={() => handleLanguageChange('in')}> Hindi(IN) </span>
 //                   </li>
 //                 </ul>
-//                 <div className="row flex ">
-//                 <div className="col-md-6">
-//                   <div className="col-md-12">
-//                     <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-form">
-//                       <label htmlFor="name-en" className="title-color"> Brand Name <span className="text-danger">*</span> (EN) </label>
-//                       <input type="text" name="name-en" className="form-control" id="name-en" placeholder="Ex : LUX" required value={brandName} onChange={(e) => setBrandName(e.target.value)} />
+//                 <div className="row flex">
+//                   <div className="col-md-6">
+//                     <div className="col-md-12">
+//                       <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-form">
+//                         <label htmlFor="name-en" className="title-color"> Brand Name <span className="text-danger">*</span> (EN) </label>
+//                         <input type="text" name="name-en" className="form-control" id="name-en" placeholder="Ex : LUX" required value={brandName} onChange={(e) => setBrandName(e.target.value)} />
+//                       </div>
+//                     </div>
+//                     <div className="col-md-12">
+//                       <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-alt-form">
+//                         <label htmlFor="alt-text-en" className="title-color"> Image Alt Text <span className="text-danger">*</span> (EN) </label>
+//                         <input type="text" name="alt-text-en" className="form-control" id="alt-text-en" placeholder="Ex : Brand Logo" required value={imageAltText} onChange={(e) => setImageAltText(e.target.value)} />
+//                       </div>
 //                     </div>
 //                   </div>
-//                   <div className="col-md-12">
-//                     <div className={`form-group form-system-language-form ${selectedLanguage === 'en' ? '' : 'd-none'}`} id="en-alt-form">
-//                       <label htmlFor="alt-text-en" className="title-color"> Image Alt Text <span className="text-danger">*</span> (EN) </label>
-//                       <input type="text" name="alt-text-en" className="form-control" id="alt-text-en" placeholder="Ex : Brand Logo" required value={imageAltText} onChange={(e) => setImageAltText(e.target.value)} />
-//                     </div>
-//                   </div>
-//                   </div>
-                
-//                 <div className="col-md-6">
-                 
-        
+
+//                   <div className="col-md-6">
 //                     {imagePreview ? (
 //                       <PreviewImage image={image} altText={imageAltText} />
 //                     ) : (
@@ -113,7 +114,7 @@
 //                       onChange={handleImageChange}
 //                     />
 //                   </div>
-//                   </div>
+//                 </div>
 //                 <div className="d-flex justify-content-end">
 //                   <button type="reset" className="btn btn-secondary mx-2" onClick={handleReset}>Reset</button>
 //                   <button type="submit" className="btn btn-primary">Submit</button>
@@ -133,12 +134,17 @@
 
 
 
+
 import React, { useState } from 'react';
 import { FaUpload, FaTrash } from 'react-icons/fa';
 import { AiOutlineFileImage } from 'react-icons/ai';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import toastify styles
+import { useNavigate } from 'react-router-dom';
 import FileUpload from '../../components/FormInput/FileUpload';
 import PreviewImage from '../../components/FormInput/PreviewImage';
+import ApiUrl from '../../ApiUrl';
 
 const AddNewBrand = () => {
   const [selectedLanguage, setSelectedLanguage] = useState('en');
@@ -147,6 +153,8 @@ const AddNewBrand = () => {
   const [status, setStatus] = useState('inactive');
   const [imageAltText, setImageAltText] = useState('');
   const [image, setImage] = useState(null);
+
+  const navigate = useNavigate(); // Hook to navigate programmatically
 
   // Retrieve token from local storage
   const token = localStorage.getItem('token');
@@ -169,19 +177,25 @@ const AddNewBrand = () => {
     formData.append('name', brandName);
     formData.append('logo', image);
     formData.append('imageAltText', imageAltText);
-    // formData.append('status', status);
 
     try {
-
-      const response = await axios.post('https://lionfish-app-tdhk5.ondigitalocean.app/api/brands', formData, {
+      const response = await axios.post(`${ApiUrl}brands`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}` // Include token in headers
         }
       });
-      alert('Brand added successfully!');
+
+      toast.success('Brand added successfully!')
+
+      // Redirect to /brandlist after a brief delay
+      setTimeout(() => {
+        navigate('/brandlist');
+      }, 3000);
+
     } catch (error) {
-      alert('Error adding brand: ' + error.response?.data?.message || error.message);
+      const errorMessage = error.response?.data?.message || error.message;
+      toast.error(`Error adding brand: ${errorMessage}`)
     }
   };
 
@@ -195,6 +209,7 @@ const AddNewBrand = () => {
 
   return (
     <div className="content container-fluid snipcss-AwJk2">
+      <ToastContainer /> {/* Toast notifications container */}
       <div className="d-flex flex-wrap gap-2 align-items-center mb-3">
         <h2 className="h1 mb-0 d-flex align-items-center gap-2">
           <img width="20" src="https://6valley.6amtech.com/public/assets/back-end/img/brand.png" alt="Brand" /> Brand Setup

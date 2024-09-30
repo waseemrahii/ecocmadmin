@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBrandById, updateBrand } from '../../components/redux/brandSlice'; // Adjust import path as necessary
 import { toast } from 'react-toastify';
+import ImageApiUrl from '../../ImageApiUrl';
 
 const BrandUpdate = () => {
   const { id } = useParams();
@@ -21,8 +22,9 @@ const BrandUpdate = () => {
 
   useEffect(() => {
     if (currentBrand) {
+      console.log("curbrand", currentBrand)
       setBrandName(currentBrand.name);
-      setBrandImage(`http://localhost:3000/${currentBrand.thumbnail}`);
+      setBrandImage(`${ImageApiUrl}/${currentBrand.logo}`);
     }
   }, [currentBrand]);
 
@@ -32,7 +34,7 @@ const BrandUpdate = () => {
     console.log("image-----------",imageFile)
     const brandData = {
       name: brandName,      
-      thumbnail: imageFile
+      logo: imageFile
     };
 
     dispatch(updateBrand({ brandId: id, brandData }))

@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ApiUrl from '../../../ApiUrl';
 
 const BannerUpdateForm = () => {
     const { id } = useParams(); // Get the id from the URL
@@ -47,7 +48,7 @@ const BannerUpdateForm = () => {
         if (id) {
             const fetchBanner = async () => {
                 try {
-                    const response = await axios.get(`http://localhost:3000/api/banners/${id}`);
+                    const response = await axios.get(`${ApiUrl}banners/${id}`);
                     const banner = response.data;
                     setBannerType(banner.bannerType);
                     setResourceType(banner.resourceType);
@@ -96,10 +97,10 @@ const BannerUpdateForm = () => {
 
         try {
             const response = id
-                ? await axios.put(`http://localhost:3000/api/banner/${id}`, formData, {
+                ? await axios.put(`${ApiUrl}banner/${id}`, formData, {
                       headers: { 'Content-Type': 'multipart/form-data' }
                   })
-                : await axios.post('http://localhost:3000/api/banner/', formData, {
+                : await axios.post(`${ApiUrl}banner/`, formData, {
                       headers: { 'Content-Type': 'multipart/form-data' }
                   });
 

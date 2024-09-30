@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineSearch, AiOutlineDownload } from 'react-icons/ai';
 import { FaEye, FaTrash } from 'react-icons/fa';
+import ImageApiUrl from '../../ImageApiUrl';
 
 const CategoryList = React.memo(({ categories, handleDelete, handleSearch, searchQuery }) => {
   const renderedCategories = useMemo(() => {
@@ -10,7 +11,7 @@ const CategoryList = React.memo(({ categories, handleDelete, handleSearch, searc
         <td>{`C${category._id.substring(0, 6)}`}</td>
         <td>
           <img
-            src={`https://lionfish-app-tdhk5.ondigitalocean.app/uploads/${category.logo}`} 
+            src={`${ImageApiUrl}/uploads/${category.logo}`} 
             className="avatar" 
             alt={category.name} 
             aria-label="Category Logo"

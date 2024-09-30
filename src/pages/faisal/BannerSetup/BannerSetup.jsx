@@ -6,6 +6,7 @@ import { FaPen } from 'react-icons/fa';
 import { FiTrash } from 'react-icons/fi';
 import { IoMdAdd } from 'react-icons/io';
 import { Link } from 'react-router-dom';
+import ImageApiUrl from '../../../ImageApiUrl';
 
 const BannerSetup = () => {
   const dispatch = useDispatch();
@@ -136,7 +137,7 @@ const BannerSetup = () => {
                       <td className="px-4 py-2">
                         <a href="#" className="flex items-center gap-2">
                           <img
-                            src={`http://localhost:3000/${banner.img}`}
+                            src={`${ImageApiUrl}/${banner.img}`}
                             alt=""
                             className="h-5 w-20"
                           />

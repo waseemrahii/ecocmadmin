@@ -12,8 +12,8 @@ const Categories = () => {
   const dispatch = useDispatch();
   const { categories, loading, error } = useSelector((state) => state.productCategory);
   
-  // const [newCategory, setNewCategory] = useState({ name: '', priority: '', logo: null });
-  const [newCategory, setNewCategory] = useState({ name: '', logo: null });
+  const [newCategory, setNewCategory] = useState({ name: '', priority: '', logo: null });
+  // const [newCategory, setNewCategory] = useState({ name: '', logo: null });
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLang, setSelectedLang] = useState('en');
 

@@ -84,7 +84,7 @@ const Sub_Sub_Categories = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          console.log("subsub cateogry id ===", subSubCategoryId)
+          // console.log("subsub cateogry id ===", subSubCategoryId)
           await dispatch(deleteSubSubCategory(subSubCategoryId));
           Swal.fire('Deleted!', 'Your sub-sub-category has been deleted.', 'success');
         } catch (error) {

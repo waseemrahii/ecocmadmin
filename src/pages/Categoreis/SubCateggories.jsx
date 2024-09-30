@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearch, FaEdit, FaTrash, FaDownload, FaChevronDown, FaEye } from 'react-icons/fa';
 import axios from 'axios';
-import './subcategories.css';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
@@ -58,7 +57,7 @@ const SubCategories = () => {
       })
       .catch(error => {
         console.error('Error creating subcategory:', error);
-        alert("errorrrrrrrrrrrrrrrrr", error)
+        // alert("errorrrrrrrrrrrrrrrrr", error)
       });
   };
 
@@ -239,7 +238,7 @@ const SubCategories = () => {
                   </tr>
                 </thead>
                 <tbody>
- {console.log('subcategor-----------',subCategories)}
+ {/* {console.log('subcategor-----------',subCategories)} */}
  {subCategories.filter(Boolean).map((subCategory, index) => (
                     <tr key={subCategory._id}>
                       <td>{index + 1}</td>

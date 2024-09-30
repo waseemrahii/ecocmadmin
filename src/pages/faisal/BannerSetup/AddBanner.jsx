@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ApiUrl from '../../../ApiUrl';
 
 const AddBannerForm = () => {
     const [bannerType, setBannerType] = useState('Main Section Banner');
@@ -21,9 +22,9 @@ const AddBannerForm = () => {
         const fetchData = async () => {
             try {
                 const endpoints = {
-                    product: 'https://lionfish-app-tdhk5.ondigitalocean.app/api/products/',
-                    category: 'https://lionfish-app-tdhk5.ondigitalocean.app/api/categories/',
-                    brand: 'https://lionfish-app-tdhk5.ondigitalocean.app/api/brands/'
+                    product: `${ApiUrl}products/`,
+                    category: `${ApiUrl}categories/`,
+                    brand: `${ApiUrl}brands/`
                 };
 
                 const response = await axios.get(endpoints[resourceType]);
@@ -74,7 +75,7 @@ const AddBannerForm = () => {
         }
     
         try {
-            const response = await axios.post('https://lionfish-app-tdhk5.ondigitalocean.app/api/banners', formData, {
+            const response = await axios.post(`${ApiUrl}banners`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
     

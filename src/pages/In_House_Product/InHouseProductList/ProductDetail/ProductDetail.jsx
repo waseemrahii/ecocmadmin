@@ -8,6 +8,7 @@ import { FiEye, FiTrash } from 'react-icons/fi'; // Import icons for actions
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ApiUrl from '../../../../ApiUrl';
+import ImageApiUrl from '../../../../ImageApiUrl';
 const ProductDetail = () => {
   const { productId } = useParams();
   const [productData, setProductData] = useState(null);
@@ -74,7 +75,7 @@ const ProductDetail = () => {
   }
 
   // Ensure default values are set for properties
-  const thumbnailUrl = productData.thumbnail ? `https://lionfish-app-tdhk5.ondigitalocean.app/${productData.thumbnail.replace(/\\/g, '/')}` : '/default-thumbnail.png';
+  const thumbnailUrl = productData.thumbnail ? `${ImageApiUrl}/${productData.thumbnail.replace(/\\/g, '/')}` : '/default-thumbnail.png';
   const {
     thumbnail = '/default-thumbnail.png',
     images = [],
@@ -142,7 +143,7 @@ const ProductDetail = () => {
               <div className="d-flex flex-wrap align-items-center flex-sm-nowrap justify-content-between gap-3 min-h-50">
                 <div className="d-flex flex-wrap gap-2 align-items-center">
                   {productData.images.map((imgUrl, index) => {
-                    const fullImgUrl = `https://lionfish-app-tdhk5.ondigitalocean.app/${imgUrl.replace(/\\/g, '/')}`;
+                    const fullImgUrl = `${ImageApiUrl}/${imgUrl.replace(/\\/g, '/')}`;
                     return (
                       <div key={index} className="aspect-1 float-left overflow-hidden d-block border rounded-lg position-relative">
                         <a

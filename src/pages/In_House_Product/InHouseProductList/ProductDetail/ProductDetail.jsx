@@ -40,7 +40,7 @@ const ProductDetail = () => {
           review._id === reviewId ? { ...review, status: newStatus } : review
         )
       }));
-     console.log("produt by id ======", productData)
+    //  console.log("produt by id ======", productData)
       if (newStatus === 'Active') {
         toast.success('Review activated!', { autoClose: 3000 });
       } else {

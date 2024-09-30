@@ -22,7 +22,6 @@ const InHouseProductList = ({ initialTitle = 'In House Product List', initialFil
   } = useSelector((state) => state.product);
 
   const { categories, brands } = useSelector((state) => state.category);
-
   const [filters, setFilters] = useState({
     brand: initialFilters.brand || '',
     category: initialFilters.category || '',
@@ -126,6 +125,7 @@ const InHouseProductList = ({ initialTitle = 'In House Product List', initialFil
     }
   };
 
+  
   const handleResetFilters = () => {
     setFilters({
       brand: '',

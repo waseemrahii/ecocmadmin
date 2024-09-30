@@ -3,8 +3,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import ApiUrl from '../../ApiUrl';
 
-const API_URL = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/vendors/';
+const API_URL = `${ApiUrl}vendors/`;
 
 // Thunk for creating a vendor
 export const createVendor = createAsyncThunk(

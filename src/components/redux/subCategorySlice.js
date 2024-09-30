@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import ApiUrl from '../../ApiUrl';
 
 // API Endpoints
-const SUBCATEGORY_API_URL = 'https://lionfish-app-tdhk5.ondigitalocean.app/api/sub-categories';
+const SUBCATEGORY_API_URL = `${ApiUrl}sub-categories`;
 
 // Helper function to get the token from local storage
 const getToken = () => {

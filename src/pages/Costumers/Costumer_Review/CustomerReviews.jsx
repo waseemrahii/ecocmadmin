@@ -19,7 +19,7 @@ const CustomerReviews = () => {
     const fetchProducts = async () => {
       try {
         const id = '66a2231f79ae861206f8f8f9';
-        const response = await axios.get(`${ApiUrl}products/`);
+        const response = await axios.get(`${ApiUrl}reviews/`);
         const fetchedProducts = response.data.doc;
 
         // Filter products that have reviews

@@ -4,9 +4,11 @@ import { FaSearch, FaPlus, FaTrash } from "react-icons/fa";
 import { BsToggleOn, BsToggleOff } from "react-icons/bs";
 import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
-import { fetchDeals, createDeal, updateDealStatus, deleteDeal } from
- "../../../components/redux/FeatureDealSlice";
+import { fetchDeals, createDeal, updateDealStatus, deleteDeal } from 
+ "../../../components/redux/featureDealSlice";
+
 import "react-toastify/dist/ReactToastify.css";
+import { Link } from "react-router-dom";
 
 const FeatureDeal = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -20,8 +22,8 @@ const FeatureDeal = () => {
   const { deals, loading, error } = useSelector(state => state.featureDeal);
 
   useEffect(() => {
-    dispatch(fetchDeals(searchQuery));
-  }, [dispatch, searchQuery]);
+    dispatch(fetchDeals());
+  }, [dispatch]);
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -271,12 +273,12 @@ const FeatureDeal = () => {
                         onChange={handleSearchChange}
                       />
                       <div className="input-group-append">
-                        <button
+                        {/* <button
                           type="submit"
                           className="btn px-4 py-2 bg-[#A1CB46] text-white hover:bg-[#7e9f37]"
                         >
                           <FaSearch />
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </form>
@@ -319,13 +321,12 @@ const FeatureDeal = () => {
                       </td>
                       <td>
                         <div className="d-flex justify-content-center gap-2">
-                        <Link to={`add-product/${deal._id}`} className="h-30 d-flex gap-2 align-items-center btn btn-soft-info btn-sm border-info">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" className="svg replaced-svg">
+                        <Link to={`add-product/${deal._id}`} className="h-30 d-flex gap-2 align-items-center btn btn-soft-info btn-sm border-green-500">
+                             <svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9" fill="none" className="svg replaced-svg border-green-500">
                               <path d="M9 3.9375H5.0625V0H3.9375V3.9375H0V5.0625H3.9375V9H5.0625V5.0625H9V3.9375Z" fill="#00A3AD" />
                                    </svg> Add product
                                                      </Link>
                           <button
-
 
                             className="btn btn-outline-danger hover:text-white btn-sm border-green-400"
                             onClick={() => handleDelete(deal._id)}

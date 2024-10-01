@@ -3,9 +3,8 @@ import axios from 'axios';
 import ApiUrl from '../../ApiUrl';
 
 // Define the API URL
-const API_URL = `${ApiUrl}feature-deals`; // Adjust to your backend URL
+const API_URL = `${ApiUrl}featured-deals`; 
 
-// Helper function to get the auth token
 const getToken = () => {
   return localStorage.getItem('token');
 };
@@ -16,10 +15,11 @@ export const fetchDeals = createAsyncThunk(
   async (searchQuery = '', { rejectWithValue }) => {
     try {
       const token = getToken();
-      const response = await axios.get(`${API_URL}?title=${encodeURIComponent(searchQuery)}`, {
+      const response = await axios.get(`${API_URL}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      return response.data.doc;
+      console.log("response data feature", response.data.doc)
+      return response?.data.doc;
     } catch (error) {
       return rejectWithValue(error.response?.data || error.message);
     }

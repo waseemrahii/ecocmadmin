@@ -11,6 +11,7 @@ import {
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Swal from 'sweetalert2';
+import ApiUrl from '../../../ApiUrl';
 
 const AddFlashDealProdcut = () => {
     const { id } = useParams(); // Get the feature deal ID from the URL
@@ -22,9 +23,9 @@ const AddFlashDealProdcut = () => {
 
     const fetchDeals = async () => {
         try {
-            const response = await axios.get("http://localhost:3000/api/products/");
-            console.log("product respone =============", response.data.docs.products)
-            const formattedDeals = response.data.docs.products.map((deal) => ({
+            const response = await axios.get(`${ApiUrl}products/`);
+            console.log("product respone =============", response.data.doc)
+            const formattedDeals = response.data.doc.map((deal) => ({
                 id: deal._id,
                 title: deal.name,
                 productInfo: deal.description,
@@ -41,7 +42,7 @@ const AddFlashDealProdcut = () => {
 
     const fetchFeatureDeal = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/flash-deals/${id}`);
+            const response = await axios.get(`${ApiUrl}flash-deals/${id}`);
             setFeatureDeal(response.data.docs);
         } catch (error) {
             console.error("Error fetching feature deal:", error);
@@ -78,7 +79,7 @@ const AddFlashDealProdcut = () => {
         event.preventDefault();
         if (selectedProduct) {
             try {
-                const response = await axios.put(`http://localhost:3000/api/flash-deals/${id}/add-product`, {
+                const response = await axios.put(`${ApiUrl}flash-deals/${id}/add-product`, {
                     productId: selectedProduct._id,
                 });
                 toast.success('Product added successfully.');
@@ -107,7 +108,7 @@ const AddFlashDealProdcut = () => {
 
             if (result.isConfirmed) {
 
-                await axios.delete(`http://localhost:3000/api/flash-deals/${id}/remove-product/${productId}`);
+                await axios.delete(`${ApiUrl}flash-deals/${id}/remove-product/${productId}`);
                 toast.success('Product removed successfully.');
                 console.log('Product removed successfully');
                 fetchFeatureDeal(); // Fetch updated feature deal data

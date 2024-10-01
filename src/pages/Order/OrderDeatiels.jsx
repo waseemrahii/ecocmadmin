@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import { FaMapLocation } from "react-icons/fa6";
@@ -8,9 +9,10 @@ import { MdEdit } from "react-icons/md";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from "react-redux";
-import {  updateOrderStatus } 
-from '../../components/redux/orderSlice';
+import { useDispatch } from "react-redux";
+import { updateOrderStatus } from '../../components/redux/orderSlice';
+import ApiUrl from "../../ApiUrl";
+import ImageApiUrl from "../../ImageApiUrl";
 
 const OrderDetails = () => {
   const { id } = useParams(); // Get the order ID from URL parameters
@@ -21,25 +23,45 @@ const OrderDetails = () => {
   const fallbackImage = '/E-bazar.png'; // Replace with the path to your fallback image
 
   useEffect(() => {
-    // Fetch the order details from the backend
-    axios.get(`http://localhost:3000/api/orders/${id}`)
-      .then(response => {
+    const fetchOrderDetails = async () => {
+      try {
+        const token = localStorage.getItem('token'); // Retrieve the token from local storage
+        const response = await axios.get(`${ApiUrl}/orders/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}` // Set the Authorization header
+          }
+        });
         setOrder(response.data.doc);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error("There was an error fetching the order details!", error);
-      });
+        toast.error("Failed to fetch order details.");
+      }
+    };
+
+    fetchOrderDetails();
   }, [id]);
 
+  
+    const printInvoice = () => {
+      window.print();
+    };
 
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
+ 
 
-  const handleUpdateStatus = (orderId, status) => {
-    dispatch(updateOrderStatus({ orderId, status }));
-    setOrder(prevOrder => ({ ...prevOrder, orderStatus: status }));
-    toast.success("Order status updated successfully!");
+  const handleUpdateStatus = async (orderId, status) => {
+    try {
+      console.log("status==",status)
+      console.log("orderId==",orderId)
+      await dispatch(updateOrderStatus({ orderId, status })).unwrap();
+      setOrder(prevOrder => ({ ...prevOrder, orderStatus: status }));
+      toast.success("Order status updated successfully!");
+    } catch (error) {
+      toast.error("Failed to update order status.");
+    }
   };
+  
   const togglePaymentStatus = () => {
     setPaymentStatus(!paymentStatus);
   };
@@ -47,7 +69,7 @@ const OrderDetails = () => {
   if (!order) {
     return <div>Loading...</div>; // Display a loading state until data is fetched
   }
-  console.log("orders----------------------", order)
+
   const {
     customer,
     vendors,
@@ -85,9 +107,9 @@ const OrderDetails = () => {
                     Show Product
                   </Button>
                 </div>
-                <button className="border rounded px-3 py-2 bg-[#A1CB46] flex items-center gap-2 text-white hover:bg-[#7e9f37]">
-                  <IoIosPrint /> Print Invoice
-                </button>
+                <button className="border rounded px-3 py-2 bg-[#A1CB46] flex items-center gap-2 text-white hover:bg-[#7e9f37]" onClick={printInvoice}>
+                <IoIosPrint /> Print Invoice
+              </button>
               </div>
             </div>
             <div className="text-end pt-2">
@@ -145,14 +167,14 @@ const OrderDetails = () => {
                           <div className="flex items-center whitespace-nowrap">
                            
                                <img
-                              src={product.thumbnail ? `http://localhost:3000/${product.thumbnail}` : fallbackImage}
+                              src={product.thumbnail ? `${ImageApiUrl}/${product.thumbnail}` : fallbackImage}
                               alt={product.name}
                               className="w-10 h-10 object-cover rounded mr-3"
                               onError={(e) => e.target.src = fallbackImage} // Fallback image if load fails
                             />
                             <div>
                               <div>{product.name}</div>
-                              <div>Qty : {/* {product.qty} */}</div>
+                              <div>Qty : {product.qty}</div>
                               <div>
                                 Unit price : ${product.price.toFixed(2)} (Tax: {product.taxAmount}%)
                               </div>
@@ -272,10 +294,10 @@ const OrderDetails = () => {
                     />
                   </div>
                   <div className="pt-5">
-                    <p className="text-md font-medium">{customer.firstName}</p>
+                    <p className="text-md font-medium">{customer?.firstName}</p>
                     <p className="text-gray-500">17 Orders</p>
-                    <p className="text-gray-500">{customer.phoneNumber}</p>
-                    <p className="text-gray-500">{customer.email}</p>
+                    <p className="text-gray-500">{customer?.phoneNumber}</p>
+                    <p className="text-gray-500">{customer?.email}</p>
                   </div>
                 </div>
               </div>
@@ -289,8 +311,8 @@ const OrderDetails = () => {
                   <MdEdit className="text-[2rem] p-1 border hover:bg-green-700 hover:text-white rounded border-green-600 text-green-300" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-md font-medium">{customer.firstName}</p>
-                  <p className="text-gray-500">Contact: {customer.phoneNumber}</p>
+                  <p className="text-md font-medium">{customer?.firstName}</p>
+                  <p className="text-gray-500">Contact: {customer?.phoneNumber}</p>
                   <p className="text-gray-500">Country: {shippingAddress.country}</p>
                   <p className="text-gray-500">City: {shippingAddress.city}</p>
                   <p className="text-gray-500">Zip Code: {shippingAddress.zipCode}</p>
@@ -307,8 +329,6 @@ const OrderDetails = () => {
                   <MdEdit className="text-[2rem] p-1 border hover:bg-green-700 hover:text-white rounded border-green-600 text-green-300" />
                 </div>
                 <div className="space-y-1">
-                  <p className="text-md font-medium">Customer Name:{customer.firstName}</p>
-                  <p className="text-gray-500">Customer Email{customer.email}</p>
                   <p className="text-gray-500">Country: {billingAddress.country}</p>
                   <p className="text-gray-500">City: {billingAddress.city} </p>
                   <p className="text-gray-500">Zip Code: {billingAddress.zipCode}</p>
@@ -319,11 +339,11 @@ const OrderDetails = () => {
           
             <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Vendor Information</h2>
-          {/* {vendor.map((vendor, index) => (
+          {vendors.map((vendor, index) => (
             <div key={index} className="mb-4 p-4 bg-white rounded shadow-md">
               <h3 className="text-lg font-semibold">Name : {vendor.firstName}</h3>
               <img
-                src={`http://localhost:3000/${vendor.logo}`}
+                src={`${ImageApiUrl}/${vendor.logo}`}
                 alt={vendor.name}
                 className="w-16 h-16 object-cover rounded mb-2"
               />
@@ -337,286 +357,17 @@ const OrderDetails = () => {
                     </p>
                   </div>
             </div>
-          ))} */}
+          ))}
         </div>
           </div>
         </div>
 
-        {/* Product Details Modal */}
-        {/* <Modal show={showModal} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Product Details</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            {products.map((product) => (
-              <div key={product._id}>
-                <h5>{product.name}</h5>
-                <p>Price: ${product.price.toFixed(2)}</p>
-                <p>Quantity: {product.qty}</p>
-                <p>Tax: {product.taxAmount}%</p>
-                <p>Discount: ${product.discountAmount.toFixed(2)}</p>
-              </div>
-            ))}
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-          </Modal.Footer>
-        </Modal> */}
+
       </div>
     </>
   );
 };
 
 export default OrderDetails;
-
-
-
-// import React, { useState, useEffect } from "react";
-// import { Button } from "react-bootstrap";
-// import { FaMapLocation } from "react-icons/fa6";
-// import { IoIosPrint } from "react-icons/io";
-// import { IoPersonSharp } from "react-icons/io5";
-// import { FaMapMarkerAlt } from "react-icons/fa";
-// import { MdEdit } from "react-icons/md";
-// import axios from 'axios';
-// import { toast } from 'react-toastify';
-// import { useParams } from 'react-router-dom';
-// import { useDispatch, useSelector } from "react-redux";
-// import { updateOrderStatus } from '../../components/redux/orderSlice';
-
-// const OrderDetails = () => {
-//   const { id } = useParams(); // Get the order ID from URL parameters
-//   const dispatch = useDispatch();
-//   const [order, setOrder] = useState(null);
-//   const [showModal, setShowModal] = useState(false);
-//   const [paymentStatus, setPaymentStatus] = useState(true);
-
-//   useEffect(() => {
-//     // Fetch the order details from the backend
-//     axios.get(`http://localhost:3000/api/orders/${id}`)
-//       .then(response => {
-//         setOrder(response.data.doc);
-//       })
-//       .catch(error => {
-//         console.error("There was an error fetching the order details!", error);
-//       });
-//   }, [id]);
-
-//   const handleClose = () => setShowModal(false);
-//   const handleShow = () => setShowModal(true);
-
-//   const handleUpdateStatus = (orderId, status) => {
-//     dispatch(updateOrderStatus({ orderId, status }));
-//     setOrder(prevOrder => ({ ...prevOrder, orderStatus: status }));
-//     toast.success("Order status updated successfully!");
-//   };
-
-//   const togglePaymentStatus = () => {
-//     setPaymentStatus(!paymentStatus);
-//   };
-
-//   if (!order) {
-//     return <div>Loading...</div>; // Display a loading state until data is fetched
-//   }
-
-//   const {
-//     customer,
-//     vendor,
-//     products,
-//     orderStatus,
-//     totalAmount,
-//     paymentMethod,
-//     shippingAddress,
-//     billingAddress
-//   } = order;
-
-//   return (
-//     <div className="bg-[#F9F9FB] w-full px-4 md:px-12 py-8">
-//       <div className="flex items-center gap-2">
-//         <img
-//           src="https://6valley.6amtech.com/public/assets/back-end/img/all-orders.png"
-//           alt=""
-//           className="w-5 h-5"
-//         />
-//         <h1 className="text-xl font-bold">Order Details</h1>
-//       </div>
-//       <br />
-
-//       <div className="grid grid-cols-1 lg:grid-cols-6 gap-5">
-//         <div className="col-span-1 lg:col-span-4 bg-white rounded h-full border-gray-400 hover:shadow-md p-2">
-//           <div className="flex justify-between items-center">
-//             <div>
-//               <h2 className="text-[1rem] font-bold pb-5">Order ID #{order._id}</h2>
-//               <p>{new Date(order.createdAt).toLocaleString()}</p>
-//             </div>
-//             <div className="flex items-center gap-2">
-//               <div>
-//                 <Button variant="primary" onClick={handleShow}>
-//                   Show Product
-//                 </Button>
-//               </div>
-//               <button className="border rounded px-3 py-2 bg-[#A1CB46] flex items-center gap-2 text-white hover:bg-[#7e9f37]">
-//                 <IoIosPrint /> Print Invoice
-//               </button>
-//             </div>
-//           </div>
-//           <div className="text-end pt-2">
-//             <h1>
-//               Status :
-//               <span className={`bg-green-100 font-bold p-1 rounded border text-green-500`}>
-//                 {orderStatus}
-//               </span>
-//             </h1>
-//             <h1 className="pt-3 text-md">
-//               Payment Method :
-//               <span className="font-bold text-md">{paymentMethod}</span>
-//             </h1>
-//             <h1 className="pt-3 text-md">
-//               Payment Status :
-//               <span className={`font-bold text-green-500 ms-3`}>
-//                 {paymentStatus ? "Paid" : "Unpaid"}
-//               </span>
-//             </h1>
-//             <h1 className="pt-3 text-md">
-//               Order verification code :
-//               <span className="font-bold ms-3"> {order._id.substring(0, 6)}</span>
-//             </h1>
-//           </div>
-//           <div className="container p-4">
-//             <div className="overflow-x-auto">
-//               <table className="min-w-full">
-//                 <thead>
-//                   <tr className="bg-[#F7FAFF] text-gray-700">
-//                     <th className="px-4 py-2 text-center font-semibold text-lg whitespace-nowrap">
-//                       SL
-//                     </th>
-//                     <th className="px-4 py-2 text-center font-semibold text-lg whitespace-nowrap">
-//                       Item Details
-//                     </th>
-//                     <th className="px-4 py-2 text-center font-semibold text-lg whitespace-nowrap">
-//                       Item Price
-//                     </th>
-//                     <th className="px-4 py-2 text-center font-semibold text-lg whitespace-nowrap">
-//                       Tax
-//                     </th>
-//                     <th className="px-4 py-2 text-center font-semibold text-lg whitespace-nowrap">
-//                       Item Discount
-//                     </th>
-//                     <th className="px-4 py-2 text-center font-bold text-lg whitespace-nowrap">
-//                       Total Price
-//                     </th>
-//                   </tr>
-//                 </thead>
-//                 <tbody>
-//                   {products.map((product, index) => (
-//                     <tr className="hover:bg-gray-100" key={product._id}>
-//                       <td className="px-4 py-2 text-center">{index + 1}</td>
-//                       <td className="px-4 py-2 w-full">
-//                         <div className="flex items-center whitespace-nowrap">
-//                           <img
-//                             src={`http://localhost:3000/${product.thumbnail}`} 
-//                             alt={product.name}
-//                             className="w-10 h-10 object-cover rounded mr-3"
-//                           />
-//                           <div>
-//                             <div>{product.name}</div>
-//                             <div>Qty : {product.qty}</div>
-//                             <div>
-//                               Unit price : ${product.price.toFixed(2)} (Tax: {product.taxAmount}%)
-//                             </div>
-//                           </div>
-//                         </div>
-//                       </td>
-//                       <td className="px-4 py-2 text-center">
-//                         ${product.price.toFixed(2)}
-//                       </td>
-//                       <td className="px-4 py-2 text-center">
-//                         ${product.taxAmount.toFixed(2)}
-//                       </td>
-//                       <td className="px-4 py-2 text-center">
-//                         ${product.discountAmount.toFixed(2)}
-//                       </td>
-//                       <td className="px-4 py-2 text-center">
-//                         ${(product.price + product.taxAmount).toFixed(2)}
-//                       </td>
-//                     </tr>
-//                   ))}
-//                 </tbody>
-//               </table>
-//             </div>
-//             <div className="mt-4">
-//               <div className="flex justify-between border-t pt-2">
-//                 <span>Item price</span>
-//                 <span>${totalAmount.toFixed(2)}</span>
-//               </div>
-//               <div className="flex justify-between">
-//                 <span>Item Discount</span>
-//                 <span>- $0.00</span>
-//               </div>
-//               <div className="flex justify-between">
-//                 <span>Sub Total</span>
-//                 <span>${totalAmount.toFixed(2)}</span>
-//               </div>
-//               <div className="flex justify-between">
-//                 <span>Coupon discount</span>
-//                 <span>- $0.00</span>
-//               </div>
-//               <div className="flex justify-between">
-//                 <span>VAT/TAX</span>
-//                 <span>$0.00</span> {/* Replace with real value */}
-//               </div>
-//               <div className="flex justify-between">
-//                 <span>Delivery Fee</span>
-//                 <span>$0.00</span> {/* Replace with real value */}
-//               </div>
-//               <div className="flex justify-between font-bold border-t pt-2">
-//                 <span>Total</span>
-//                 <span>${totalAmount.toFixed(2)}</span>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-
-//         <div className="col-span-1 lg:col-span-2">
-//           <div className="px-4 py-3 bg-white rounded-xl shadow-md space-y-4">
-//             <div className="space-y-2">
-//               <h2 className="text-xl font-semibold text-center">
-//                 Order & Shipping Info
-//               </h2>
-//               <div className="flex items-center space-x-3">
-//                 <IoPersonSharp size={20} />
-//                 <span className="font-medium">Customer: {customer.name}</span>
-//               </div>
-//               <div className="flex items-center space-x-3">
-//                 <FaMapMarkerAlt size={20} />
-//                 <span className="font-medium">Shipping Address: {shippingAddress}</span>
-//               </div>
-//               <div className="flex items-center space-x-3">
-//                 <FaMapMarkerAlt size={20} />
-//                 <span className="font-medium">Billing Address: {billingAddress}</span>
-//               </div>
-//             </div>
-//             <div>
-//               <button
-//                 className="bg-blue-500 text-white font-medium px-4 py-2 rounded hover:bg-blue-600"
-//                 onClick={() => handleUpdateStatus(order._id, 'delivered')}
-//               >
-//                 Mark as Delivered
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default OrderDetails;
-
-
-
-
 
 

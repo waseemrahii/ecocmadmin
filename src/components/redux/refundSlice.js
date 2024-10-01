@@ -1,14 +1,21 @@
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import ApiUrl from '../../ApiUrl';
 
 // Async Thunks
+const getToken = () => {
+  return localStorage.getItem('token');
+};
 
 // Fetch refunds for a specific vendor
 export const fetchRefundsForVendor = createAsyncThunk(
   'refund/fetchRefundsForVendor',
   async (vendorId) => {
-    const response = await axios.get(`${ApiUrl}refunds/vendor/?vendorId=${vendorId}`);
+    const response = await axios.get(`${ApiUrl}refunds/vendor/?vendorId=${vendorId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`, // Include the token in the header
+      },
+    });
     return response.data.doc;
   }
 );
@@ -17,9 +24,11 @@ export const fetchRefundsForVendor = createAsyncThunk(
 export const fetchRefundsForVendorByStatus = createAsyncThunk(
   'refund/fetchRefundsForVendorByStatus',
   async ({ status }) => {
-    const response = await 
-    axios.get
-    (`${ApiUrl}refunds/?status=${status}`);
+    const response = await axios.get(`${ApiUrl}refunds/?status=${status}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`, // Include the token in the header
+      },
+    });
     return response.data.doc;
   }
 );
@@ -28,8 +37,12 @@ export const fetchRefundsForVendorByStatus = createAsyncThunk(
 export const fetchRefundByIdForVendor = createAsyncThunk(
   'refund/fetchRefundByIdForVendor',
   async (refundId) => {
-    const response = await axios.get(`${ApiUrl}refunds/${refundId}`);
-    return response.data.docs;
+    const response = await axios.get(`${ApiUrl}refunds/${refundId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`, // Include the token in the header
+      },
+    });
+    return response.data.doc;
   }
 );
 
@@ -39,18 +52,26 @@ export const updateRefundStatus = createAsyncThunk(
   async ({ refundId, status, statusReason }) => {
     const response = await axios.put(
       `${ApiUrl}refunds/${refundId}/status`,
-      { status, statusReason }
+      { status, statusReason },
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`, // Include the token in the header
+        },
+      }
     );
     return { refundId, status, statusReason };
   }
 );
 
-
 // Delete refund for a vendor
 export const deleteRefund = createAsyncThunk(
   'refund/deleteRefund',
   async (refundId) => {
-    await axios.delete(`${ApiUrl}refunds/${refundId}`);
+    await axios.delete(`${ApiUrl}refunds/${refundId}`, {
+      headers: {
+        Authorization: `Bearer ${getToken()}`, // Include the token in the header
+      },
+    });
     return refundId;
   }
 );
@@ -63,7 +84,10 @@ export const fetchRefundsWithFilters = createAsyncThunk(
       const response = await axios.get(`${ApiUrl}api/refunds/`, {
         params: { 
           vendorId, searchQuery, status, startDate, endDate 
-        }
+        },
+        headers: {
+          Authorization: `Bearer ${getToken()}`, // Include the token in the header
+        },
       });
       return response.data;
     } catch (error) {
@@ -72,6 +96,7 @@ export const fetchRefundsWithFilters = createAsyncThunk(
   }
 );
 
+// Initial state
 const initialState = {
   refunds: [],       // Array of refunds
   singleRefund: null, // Single refund data (for details view)
@@ -79,6 +104,7 @@ const initialState = {
   error: null,
 };
 
+// Create slice
 const refundSlice = createSlice({
   name: 'refund',
   initialState,
@@ -154,4 +180,5 @@ const refundSlice = createSlice({
   },
 });
 
+// Export the reducer
 export default refundSlice.reducer;

@@ -19,18 +19,18 @@ const AddNewProduct = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    category: '66f5a1c8f5fc68916264d6e2',
-    subCategorySlug: '66f5a436f5fc68916264d6f0',
-    subSubCategorySlug: '66f5552df5fc68916264d684',
+    category: '',
+    subCategorySlug: '',
+    subSubCategorySlug: '',
     brand: '',
     productType: '',
-    digitalProductType: '',
+    digitalProductType: 'physical',
     sku: '',
     unit: '',
     tags: '',
     price: '',
     discount: '',
-    discountType: '',
+    discountType: 'percent',
     discountAmount: '',
     taxAmount: '',
     taxIncluded: false,
@@ -150,6 +150,7 @@ const AddNewProduct = () => {
           case 'taxAmount':
           case 'shippingCost':
           case 'minimumOrderQty':
+           
           case 'stock':
             value = parseFloat(value) || 0;
             break;

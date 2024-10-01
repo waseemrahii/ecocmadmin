@@ -238,6 +238,7 @@ import { Link } from "react-router-dom";
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ApiUrl from "../../ApiUrl";
 
 const AttributeSetup = () => {
   const [attributes, setAttributes] = useState([]);
@@ -250,7 +251,7 @@ const AttributeSetup = () => {
   useEffect(() => {
     const fetchAttributes = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/attributes/');
+        const response = await axios.get(`${ApiUrl}attributes/`);
         setAttributes(response.data.doc);
       } catch (error) {
         toast.error("Error fetching attributes data.");
@@ -280,17 +281,17 @@ const AttributeSetup = () => {
     try {
       if (editingAttribute) {
         // Update attribute
-        await axios.put(`http://localhost:3000/api/attributes/${editingAttribute._id}`, newAttribute);
+        await axios.put(`${ApiUrl}attributes/${editingAttribute._id}`, newAttribute);
         toast.success("Attribute updated successfully!");
       } else {
         // Add new attribute
-        await axios.post('http://localhost:3000/api/attributes/', newAttribute);
+        await axios.post(`${ApiUrl}attributes/`, newAttribute);
         toast.success("Attribute added successfully!");
       }
       // Reset form and refetch attributes
       setNewAttribute({ name: '' });
       setEditingAttribute(null);
-      const response = await axios.get('http://localhost:3000/api/attributes/');
+      const response = await axios.get(`${ApiUrl}attributes/`);
       setAttributes(response.data.doc);
     } catch (error) {
       toast.error("Error saving attribute.");
@@ -300,9 +301,9 @@ const AttributeSetup = () => {
   // Handle attribute deletion
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/attributes/${id}`);
+      await axios.delete(`${ApiUrl}attributes/${id}`);
       toast.success("Attribute deleted successfully!");
-      const response = await axios.get('http://localhost:3000/api/attributes/');
+      const response = await axios.get(`${ApiUrl}attributes/`);
       setAttributes(response.data.doc);
     } catch (error) {
       toast.error("Error deleting attribute.");

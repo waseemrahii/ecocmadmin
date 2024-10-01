@@ -638,10 +638,13 @@ const FlashDeals = () => {
   const handleSearch = (e) => {
     setSearchQuery(e.target.value.toLowerCase());
   };
-
-  const filteredFlashDeals = flashDeals.filter(deal =>
-    deal.title.toLowerCase().includes(searchQuery)
+  const filteredFlashDeals = flashDeals.filter(deal => 
+    (deal.title ? deal.title.toLowerCase() : "").includes(searchQuery)
   );
+  
+  // const filteredFlashDeals = flashDeals.filter(deal =>
+  //   deal.title.toLowerCase().includes(searchQuery)
+  // );
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'long', day: 'numeric' };

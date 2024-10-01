@@ -10,16 +10,14 @@ import Swal from 'sweetalert2';
 const OrderList = () => {
   const dispatch = useDispatch();
   const { orders = [], loading, error } = useSelector((state) => state.vendorOrder || {});
+  
+  // State for pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ordersPerPage, setOrdersPerPage] = useState(10);
 
-  // Fetch all orders without search or filter parameters
   useEffect(() => {
     dispatch(fetchOrder());
   }, [dispatch]);
-
-  
-  useEffect(() => {
-    console.log("orders==============", orders)
-  }, []);
 
   const handleUpdateStatus = (orderId, status) => {
     dispatch(updateOrderStatus({ orderId, status }));
@@ -41,6 +39,37 @@ const OrderList = () => {
         toast.success("Order deleted successfully!");
       }
     });
+  };
+
+  // Pagination Logic
+  const indexOfLastOrder = currentPage * ordersPerPage;
+  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
+  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+  const totalOrders = orders.length;
+
+  // Change Page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  // Export Functionality
+  const handleExport = () => {
+    const csvContent = "data:text/csv;charset=utf-8," + 
+      ["Order ID,Date,Customer Name,Store,Amount,Status"].concat(
+        currentOrders.map(order => [
+          order._id,
+          new Date(order.createdAt).toLocaleDateString(),
+          order.customer ? `${order.customer.firstName} ${order.customer.lastName}` : 'Unknown Customer',
+          order.vendor ? order.vendor.shopName : 'Unknown Store',
+          order.totalAmount,
+          order.orderStatus
+        ].join(","))
+      ).join("\n");
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "orders.csv");
+    document.body.appendChild(link);
+    link.click();
   };
 
   return (
@@ -73,10 +102,10 @@ const OrderList = () => {
                   <button
                     type="button"
                     className="btn px-4 py-2 justify-center align-items-center bg-[#A1CB46] text-white hover:bg-[#7e9f37] text-nowrap btn-block flex gap-2"
-                    style={{ display: "flex", color:"white" }}
-                    data-toggle="dropdown"
-                  >
-                    <FaDownload /> Export
+                    onClick={handleExport}
+                 style={{color:"white"}}
+                >
+                    <FaDownload className="text-white"/> Export
                   </button>
                 </div>
               </div>
@@ -96,35 +125,38 @@ const OrderList = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map((order) => (
+                  {currentOrders.map((order) => (
                     <tr key={order._id}>
-                      {/* {console.log("orders=========sssssssss",order)} */}
-                      <td>{order._id}</td>
-                      <td>{new Date(order.createdAt).toLocaleDateString()}</td>
+                <td className="text-truncate" style={{ maxWidth: '150px' }}>
+  {order._id.substring(0, 6)} {/* Display first 6 characters of order ID */}
+</td>
+    <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                       <td>{order.customer ? `${order.customer.firstName} ${order.customer.lastName}` : 'Unknown Customer'}</td>
-                      <td>{order.vendor ? order.vendor.shopName : 'Unknown Store'}</td>
+                      <td>{order.vendors.length > 0 ? order.vendors[0].shopName : 'Unknown Store'}</td>
                       <td>{order.totalAmount}</td>
                       <td>
-                        <select
-                          className={`badge badge-${
-                            order.orderStatus === "pending"
-                              ? "warning"
-                              : order.orderStatus === "confirmed"
-                              ? "success"
-                              : "info"
-                          } radius-50`}
-                          value={order.orderStatus}
-                          onChange={(e) => handleUpdateStatus(order._id, e.target.value)}
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="confirmed">Confirmed</option>
-                          <option value="delivered">Delivered</option>
-                          <option value="canceled">Cancelled</option>
-                          <option value="packaging">Packaging</option>
-                          <option value="out_for_delivery">Out_for_delivery</option>
-                          <option value="failed_to_deliver">Failed_to_deliver</option>
-                          <option value="returned">Returned</option>
-                        </select>
+                        {(() => {
+                          switch (order.orderStatus) {
+                            case "pending":
+                              return <span className="badge bg-green-600 text-white">Pending</span>;
+                            case "confirmed":
+                              return <span className="badge bg-blue-300 text-white">Confirmed</span>;
+                            case "packaging":
+                              return <span className="badge bg-yellow-300 text-white">Packaging</span>;
+                            case "out_for_delivery":
+                              return <span className="badge bg-orange-300 text-white">Out for Delivery</span>;
+                            case "delivered":
+                              return <span className="badge bg-green-500 text-white">Delivered</span>;
+                            case "failed_to_deliver":
+                              return <span className="badge bg-red-500 text-white">Failed to Deliver</span>;
+                            case "returned":
+                              return <span className="badge bg-gray-500 text-white">Returned</span>;
+                            case "canceled":
+                              return <span className="badge bg-red-300 text-white">Canceled</span>;
+                            default:
+                              return <span className="badge bg-gray-400 text-white">Unknown</span>;
+                          }
+                        })()}
                       </td>
                       <td>
                         <Link
@@ -133,22 +165,16 @@ const OrderList = () => {
                         >
                           <FaEye size={18} />
                         </Link>
-                        {/* <button
-                          className="btn bg-blue-300 text-white btn-sm ml-2"
-                          onClick={() => navigate(`/orderedit/${order._id}`)}
-                        >
-                          <FaEdit size={18} />
-                        </button> */}
-                        {/* <button
+                        <button
                           className="btn bg-red-300 text-white btn-sm ml-2"
                           onClick={() => handleDeleteOrder(order._id)}
                         >
                           <FaTrashAlt size={18} />
-                        </button>  */}
+                        </button> 
                       </td>
                     </tr>
                   ))}
-                  {orders.length === 0 && (
+                  {currentOrders.length === 0 && (
                     <tr>
                       <td colSpan="7" className="text-center py-4">
                         No orders found.
@@ -159,34 +185,19 @@ const OrderList = () => {
               </table>
             </div>
 
-            {/* <div className="d-flex justify-content-end align-items-center mb-3">
-              <nav className="d-flex gap-2" aria-label="Page navigation">
-                <ul className="pagination mb-0">
-                  <li className="page-item disabled">
-                    <button className="page-link" aria-label="Previous">
-                      <span aria-hidden="true">&laquo;</span>
+            {/* Pagination Controls */}
+            <nav>
+              <ul className="pagination justify-content-center">
+                {[...Array(Math.ceil(totalOrders / ordersPerPage))].map((_, index) => (
+                  <li key={index} className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}>
+                    <button className="page-link" onClick={() => paginate(index + 1)}>
+                      {index + 1}
                     </button>
                   </li>
-                  <li className="page-item active">
-                    <button className="page-link">1</button>
-                  </li>
-                  <li className="page-item">
-                    <button className="page-link">2</button>
-                  </li>
-                  <li className="page-item">
-                    <button className="page-link">3</button>
-                  </li>
-                  <li className="page-item">
-                    <button className="page-link">4</button>
-                  </li>
-                  <li className="page-item">
-                    <button className="page-link" aria-label="Next">
-                      <span aria-hidden="true">&raquo;</span>
-                    </button>
-                  </li>
-                </ul>
-              </nav>
-            </div> */}
+                ))}
+              </ul>
+            </nav>
+
           </div>
         </div>
       </div>

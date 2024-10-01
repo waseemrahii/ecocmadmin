@@ -134,7 +134,7 @@ const BannerSetup = () => {
                   {banners.map((banner) => (
                     <tr key={banner._id} className="hover:bg-gray-100">
    {/* { console.log("Banner image URL:", `${ImageApiUrl}/${banner.bannerImage}`)} */}
-    <td className="p-10">{banner.id}</td>
+    <td className="p-10">{banner._id}</td>
                       <td className="px-4 py-2">
                         <a href="#" className="flex items-center gap-2">
                           <img

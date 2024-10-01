@@ -334,7 +334,7 @@ import {
   updateDealStatus,
   deleteDeal,
   updateDeal, // Ensure you have this action imported
-} from "../../../components/redux/DealOfDaySlice"; // Adjust the import path as necessary
+} from "../../../components/redux/dealOfDaySlice"; // Adjust the import path as necessary
 import { fetchProducts } from "../../../components/redux/product/productSlice"; // Adjust import path as necessary
 import Swal from "sweetalert2";
 import { AiOutlineCheckCircle, AiOutlineDelete } from "react-icons/ai"; // Import the necessary icons

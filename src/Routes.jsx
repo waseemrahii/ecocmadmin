@@ -219,7 +219,7 @@ function AllRoutes() {
                   <Route path="/addbannerform" element={<AddBannerForm />} />
        
                   <Route path="/venderlist" element={<VendorList />} />
-                  <Route path="/venderdetail" element={<VenderListDetail />} />
+                  <Route path="/vendordetail/:id" element={<VenderListDetail />} />
                   <Route path="/shopview" element={<ShopStoreDetails />} />
                   <Route path="/new" element={<ShopStoreDetails />} />
                   <Route path="/image" element={<ShopStoreDetails />} />

@@ -1,7 +1,6 @@
 // SubCategories.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-// import './subcategories.css';
 import Swal from 'sweetalert2';
 import ApiUrl from '../../../ApiUrl';
 import SubCategoryForm from './SubCategoryForm';

@@ -10,6 +10,7 @@ import productCategorySlice from './categorySlice';
 import productSubcategoryReducer from './subCategorySlice'; 
 import bannerReducer from './bannerSlice'; // Import the banner reducer
 import dealOfTheDayReducer from './DealOfDaySlice'; // Import the banner reducer
+import FeatureDealReducer from './FeatureDealSlice'; // Import the banner reducer
 
 const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
     productSubcategory: productSubcategoryReducer,
     banner: bannerReducer,
     dealOfTheDay: dealOfTheDayReducer,
+    featureDeal: FeatureDealReducer,
 
   },
   middleware: (getDefaultMiddleware) =>

@@ -62,7 +62,7 @@ const AddBannerForm = () => {
         formData.append('resourceId', {
             product: productId,
             category,
-            shop,
+            // shop,
             brand
         }[resourceType]);
         formData.append('url', e.target.url.value);
@@ -86,7 +86,7 @@ const AddBannerForm = () => {
                 setResourceType('product');
                 setProductId('');
                 setCategory('');
-                setShop('');
+                // setShop('');
                 setBrand('');
                 setBannerImage(null);
             } else {

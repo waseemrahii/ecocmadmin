@@ -20,14 +20,24 @@ const BrandUpdate = () => {
     dispatch(fetchBrandById(id));
   }, [dispatch, id]);
 
+  // useEffect(() => {
+  //   if (currentBrand) {
+  //     console.log("curbrand", currentBrand)
+  //     setBrandName(currentBrand.name);
+  //     setBrandImage(`${ImageApiUrl}/${currentBrand.logo}`);
+  //   }
+  // }, [currentBrand]);
+
   useEffect(() => {
     if (currentBrand) {
-      console.log("curbrand", currentBrand)
+      console.log("Current brand details:", currentBrand);
       setBrandName(currentBrand.name);
-      setBrandImage(`${ImageApiUrl}/${currentBrand.logo}`);
+      const imageUrl = `${ImageApiUrl}/${currentBrand.logo}`;
+      setBrandImage(imageUrl);
+      console.log("Constructed image URL:", imageUrl);
     }
   }, [currentBrand]);
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 

@@ -1,34 +1,27 @@
-
 import React, { useEffect, useState } from "react";
-import { FaSearch, FaEdit, FaPlus, FaTrash, FaPen } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { FaSearch, FaPlus, FaTrash } from "react-icons/fa";
 import { BsToggleOn, BsToggleOff } from "react-icons/bs";
 import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
+import { fetchDeals, createDeal, updateDealStatus, deleteDeal } from
+ "../../../components/redux/FeatureDealSlice";
 import "react-toastify/dist/ReactToastify.css";
-// import "./FeatureDeal.css"; // Assume this file contains your custom styles
-import { Link, useNavigate } from "react-router-dom";
 
 const FeatureDeal = () => {
-  const [deals, setDeals] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [formData, setFormData] = useState({
     title: "",
     startDate: "",
     endDate: ""
   });
-  useEffect(() => {
-    fetchDeals();
-  }, [searchQuery]);
-  
-  const fetchDeals = () => {
-    const query = searchQuery ? `?title=${encodeURIComponent(searchQuery)}` : '';
-    fetch(`http://localhost:3000/api/feature-deals${query}`)
-      .then(response => response.json())
-      .then(data => setDeals(data.docs))
-      .catch(error => console.error("Error fetching data:", error));
-  };
-  const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+  const { deals, loading, error } = useSelector(state => state.featureDeal);
+
+  useEffect(() => {
+    dispatch(fetchDeals(searchQuery));
+  }, [dispatch, searchQuery]);
 
   const handleFormChange = (e) => {
     const { name, value } = e.target;
@@ -37,59 +30,23 @@ const FeatureDeal = () => {
       [name]: name.includes("Date") ? new Date(value).toISOString().split('T')[0] : value
     }));
   };
-  
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:3000/api/feature-deals", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then(response => response.json())
-      .then(newDeal => {
-        setDeals(prevDeals => [...prevDeals, newDeal]);
-        setFormData({
-          title: '',
-          startDate: '',
-          endDate: ''
-        });
+    dispatch(createDeal(formData))
+      .unwrap()
+      .then(() => {
         toast.success("Deal added successfully!");
-        fetchDeals();
+        setFormData({ title: '', startDate: '', endDate: '' });
       })
-      .catch(error => {
-        console.error("Error adding deal:", error);
-        toast.error("Failed to add deal.");
-      });
+      .catch(() => toast.error("Failed to add deal."));
   };
 
   const toggleStatus = (dealId, currentStatus) => {
-    fetch(`http://localhost:3000/api/feature-deals/${dealId}/status`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        status: currentStatus === "active" ? "inactive" : "active",
-      }),
-    })
-      .then(response => response.json())
-      .then(() => {
-        setDeals(prevDeals =>
-          prevDeals.map(deal =>
-            deal._id === dealId
-              ? { ...deal, status: currentStatus === "active" ? "inactive" : "active" }
-              : deal
-          )
-        );
-        toast.info("Deal status updated.");
-      })
-      .catch(error => {
-        console.error("Error updating status:", error);
-        toast.error("Failed to update status.");
-      });
+    dispatch(updateDealStatus({ id: dealId, status: currentStatus === "active" ? "inactive" : "active" }))
+      .unwrap()
+      .then(() => toast.info("Deal status updated."))
+      .catch(() => toast.error("Failed to update status."));
   };
 
   const handleDelete = (dealId) => {
@@ -103,30 +60,23 @@ const FeatureDeal = () => {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        // console.log("deal id ========", dealId)
-        fetch(`http://localhost:3000/api/feature-deals/${dealId}`, {
-          method: "DELETE",
-        })
-          .then(response => response.json())
-          .then(() => {
-            setDeals(prevDeals => prevDeals.filter(deal => deal._id !== dealId));
-            toast.success("Deal deleted successfully!");
-          })
-          .catch(error => {
-            console.error("Error deleting deal:", error);
-            toast.error("Failed to delete deal.");
-          });
+        dispatch(deleteDeal(dealId))
+          .unwrap()
+          .then(() => toast.success("Deal deleted successfully!"))
+          .catch(() => toast.error("Failed to delete deal."));
       }
     });
   };
+
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    fetchDeals(); // Trigger the search with the current query
+    dispatch(fetchDeals(searchQuery)); // Trigger the search with the current query
   };
+
 
   const formatDate = (dateString) => {
     const options = { year: 'numeric', month: 'short', day: '2-digit' };
